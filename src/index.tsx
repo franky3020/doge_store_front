@@ -1,11 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import ProductApp from "./ProductApp";
+import ProductApp from "./pages/ListProduct/ProductApp";
 import ProductDetail from './pages/ProductDetail';
 
 

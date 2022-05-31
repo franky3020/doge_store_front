@@ -66,10 +66,12 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
 
     render() {
         return (
-            <div>
-                {this.state.products.map(product => (
-                    <Product key={product.id} id={product.id} name={product.name} create_user_id={product.create_user_id} price={product.price} describe={product.describe} />
-                ))}
+            <div className='container'>
+                <div className='card-group'>
+                    {this.state.products.map(product => (
+                        <Product key={product.id} id={product.id} name={product.name} create_user_id={product.create_user_id} price={product.price} describe={product.describe} />
+                    ))}
+                </div>
             </div>
         );
     }
