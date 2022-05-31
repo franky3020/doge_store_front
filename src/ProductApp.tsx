@@ -56,10 +56,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
         return (
             <div>
                 {this.state.products.map(product => (
-                    <div>
                     <Product id={product.id} name={product.name} create_user_id={product.create_user_id} price={product.price} describe={product.describe} />
-                    <p>----------------------------</p>
-                    </div>
                 ))}
             </div>
         );
