@@ -1,6 +1,9 @@
 import * as React from 'react';
+
 import { Card } from 'antd';
-import { Outlet, Link } from "react-router-dom";
+
+import { Link } from "react-router-dom";
+
 export interface IProductProps {
     id: number,
     name: string,
