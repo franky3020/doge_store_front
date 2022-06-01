@@ -3,6 +3,8 @@ import React, { Component } from 'react';
 
 import Product, { IProductProps } from "./Product";
 
+import AppNavbar from '../AppNavbar';
+
 export interface IProductAppProps {
 
 }
@@ -66,23 +68,26 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
 
     render() {
         return (
-            <div className='container'>
-                <div className='row'>
+            <React.Fragment>
+                <AppNavbar />
+                <div className='container'>
+                    <div className='row'>
 
-                    {
-                        this.state.products.map(product => {
-                            return (
-                                <div className="col-3">
-                                    <Product key={product.id} id={product.id} name={product.name} create_user_id={product.create_user_id} price={product.price} describe={product.describe} />
-                                </div>
+                        {
+                            this.state.products.map(product => {
+                                return (
+                                    <div className="col-3">
+                                        <Product key={product.id} id={product.id} name={product.name} create_user_id={product.create_user_id} price={product.price} describe={product.describe} />
+                                    </div>
 
-                            );
-                        })
-                    }
+                                );
+                            })
+                        }
+                    </div>
+
+
                 </div>
-
-
-            </div>
+            </React.Fragment>
         );
     }
 
