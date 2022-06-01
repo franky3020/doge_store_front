@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Card } from 'antd';
-import { Image, Button, Space, Descriptions } from 'antd';
 import { DownloadOutlined } from '@ant-design/icons';
 import { Link } from "react-router-dom";
 import "antd/dist/antd.css";
+
+import { Button, Card } from 'react-bootstrap';
+
+
 
 export interface IProductProps {
     id: number,
@@ -38,23 +40,21 @@ export default class Product extends React.Component<IProductProps, IProductStat
 
         return (
 
-            <div className="card" style={{"width": "18rem"}}>
-
+            <Card style={{ width: '18rem' }}>
                 <Link className="d-flex justify-content-center" to={"/product/" + this.props.id}>
-                    <img className='img-fluid img-thumbnail' src='https://random.imagecdn.app/250/250' onError={this.onError.bind(this)} />
+                    <Card.Img variant="top" src="https://random.imagecdn.app/250/250" />
                 </Link>
 
-                <div className="card-body">
-                    <h5 className="card-title">{this.props.name}</h5>
-                    <p className="card-text">{this.props.describe}</p>
-                    <p className="card-text"><small className="text-muted">Price: {this.props.price}</small></p>
+                <Card.Body>
+                    <Card.Title>{this.props.name}</Card.Title>
+                    <Card.Text>
+                        {this.props.describe}
+                    </Card.Text>
                     <Link to={"/product/" + this.props.id}>
-                        <Button type="primary" shape="round" icon={<DownloadOutlined />} size="small" />
+                        <Button className="w-100" variant="primary">Buy</Button>
                     </Link>
-                </div>
-            </div>
-
-
+                </Card.Body>
+            </Card>
 
         );
     }
