@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
 
+
+import {login_and_getJWT} from "../getDataApi/WebApi";
+
 export interface IAppLoginProps {
 
 }
@@ -31,6 +34,12 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
             show: false
         });
     }
+
+    handleLoginButton() {
+        // login_and_getJWT();
+    }
+
+
 
     public render() {
         return (
