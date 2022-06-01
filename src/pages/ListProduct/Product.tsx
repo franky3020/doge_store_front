@@ -18,26 +18,30 @@ export interface IProductState {
 
 export default class Product extends React.Component<IProductProps, IProductState> {
 
-    // random: any;
-    // setRandom: any;
 
     constructor(props: IProductProps) {
         super(props);
 
         this.state = {
+
         }
+    }
 
-        // [this.random, setRandom] = useState<number>();
-
+    onError() {
+        // this.setState({
+        //     imageUrl: "img/default.png"
+        // })
+        console.log("in onerror");
     }
 
     public render() {
 
         return (
 
-            <div className="card">
-                <Link to={"/product/" + this.props.id}>
-                    <img className='img-thumbnail' src='https://random.imagecdn.app/250/250' />
+            <div className="card" style={{"width": "18rem"}}>
+
+                <Link className="d-flex justify-content-center" to={"/product/" + this.props.id}>
+                    <img className='img-fluid img-thumbnail' src='https://random.imagecdn.app/250/250' onError={this.onError.bind(this)} />
                 </Link>
 
                 <div className="card-body">
@@ -49,6 +53,8 @@ export default class Product extends React.Component<IProductProps, IProductStat
                     </Link>
                 </div>
             </div>
+
+
 
         );
     }
