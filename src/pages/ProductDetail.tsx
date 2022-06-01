@@ -1,7 +1,9 @@
 import * as React from 'react';
+import AppNavbar from './AppNavbar';
+import { Container, Row, Col } from 'react-bootstrap';
 
 export interface IProductDetailProps {
-    
+
 }
 
 export interface IProductDetailState {
@@ -29,7 +31,7 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
 
         this.getProduct();
 
-        if(typeof this.getProductInterval === "undefined") {
+        if (typeof this.getProductInterval === "undefined") {
             this.getProductInterval = setInterval(() => {
                 this.getProduct();
             }, 1000);
@@ -67,12 +69,18 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
 
     public render() {
         return (
-            <div>
-                <p>{this.state.name}</p>
-                <p>{this.state.create_user_id}</p>
-                <p>{this.state.price}</p>
-                <p>{this.state.describe}</p>
-            </div>
+            <React.Fragment>
+                <AppNavbar />
+                <Container>
+                    <Row>
+                        <Col>{this.state.name}</Col>
+                        <Col>{this.state.create_user_id}</Col>
+                        <Col>{this.state.price}</Col>
+                        <Col>{this.state.describe}</Col>
+                    </Row>
+                </Container>
+            </React.Fragment>
+
         );
     }
 }

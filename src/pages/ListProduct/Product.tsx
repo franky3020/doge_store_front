@@ -40,8 +40,9 @@ export default class Product extends React.Component<IProductProps, IProductStat
 
         return (
 
-            <Card style={{ width: '18rem' }}>
-                <Link className="d-flex justify-content-center" to={"/product/" + this.props.id}>
+            // <Card style={{ width: '18rem' }}>
+            <Card>
+                <Link  to={"/product/" + this.props.id}>
                     <Card.Img variant="top" src="https://random.imagecdn.app/250/250" />
                 </Link>
 

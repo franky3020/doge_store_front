@@ -64,9 +64,6 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                             </Form.Group>
                         </Form>
 
-
-
-
                     </Modal.Body>
                     <Modal.Footer>
 
