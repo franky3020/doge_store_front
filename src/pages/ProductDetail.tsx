@@ -1,6 +1,7 @@
 import * as React from 'react';
 import AppNavbar from './AppNavbar';
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, Carousel } from 'react-bootstrap';
+import ImgCarousel from "./ImgCarousel";
 
 export interface IProductDetailProps {
 
@@ -72,12 +73,24 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
             <React.Fragment>
                 <AppNavbar />
                 <Container>
-                    <Row>
-                        <Col>{this.state.name}</Col>
-                        <Col>{this.state.create_user_id}</Col>
-                        <Col>{this.state.price}</Col>
-                        <Col>{this.state.describe}</Col>
+
+                    {/* <Row  className="justify-content-center">
+                        <Col>
+                            <h1 className='align-middle'>{this.state.name}</h1>
+                        </Col>
+                    </Row> */}
+                    {/* 未完成 */}
+
+                    <Row >
+                        <Col>
+                            <ImgCarousel />
+                        </Col>
+                        <Col lg={8}>
+
+                        </Col>
+
                     </Row>
+
                 </Container>
             </React.Fragment>
 
