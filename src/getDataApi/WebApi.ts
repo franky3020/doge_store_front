@@ -17,9 +17,9 @@ export async function login_and_getJWT(email: string, password: string): Promise
 
         if(res.status === 200) {
             let token_json = await res.json();
-            return token_json;
-        } else {
-            return null;
+            if(typeof token_json.token !== "undefined") {
+                return token_json.token;
+            }
         }
 
     } catch(err) {

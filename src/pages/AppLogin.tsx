@@ -1,10 +1,10 @@
 import * as React from 'react';
-import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
-
-
-import { login_and_getJWT } from "../getDataApi/WebApi";
+import { Button, Row } from 'react-bootstrap';
 
 import LoginFrom from './LoginFrom';
+import UserInfoService from "../service/UserInfo";
+import UserEntity from '../entity/UserEntity';
+
 
 export interface IAppLoginProps {
 
@@ -18,17 +18,29 @@ export interface IAppLoginState {
     isInputErrorPassword: boolean,
 }
 
+// Todo 應該要改名 因為不只負責login
 export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginState> {
+
+    userInfoService: UserInfoService;
+    userNickname: string = "";
+
     constructor(props: IAppLoginProps) {
         super(props);
 
+        this.userInfoService = UserInfoService.getInstance();
+        this.userInfoService.setUserFromLocalStorageJWT();
 
+        let isLogin = false;
+        if (this.userInfoService.isExistUser()) {
+            isLogin = true;
+            this.userNickname = this.userInfoService.getUserNickname();
+        }
 
         this.state = {
             showLoginFrom: false,
             email: "",
             password: "",
-            isLogin: false,
+            isLogin: isLogin,
             isInputErrorPassword: false
         }
     }
@@ -45,40 +57,17 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
         });
     }
 
-    async handleLoginButton() {
-
-        const TOKEN_NAME = "token";
-        let email = this.state.email;
-        let password = this.state.password;
-
-
-        let jwt_json = await login_and_getJWT(email, password);
-        if (jwt_json) {
-            localStorage.setItem(TOKEN_NAME, jwt_json.token);
-            this.setState({
-                isLogin: true
-            });
-
-            this.handleCloseLoginFrom();
-
-        } else {
-            this.setState({
-                isInputErrorPassword: true
-            });
-        }
-
+    handleLoginComplete() {
+        this.setState({
+            isLogin: true
+        });
     }
 
     handleLogout() {
         this.setState({
             isLogin: false
         });
-    }
-
-    handleLoginComplete() {
-        this.setState({
-            isLogin: true
-        });
+        this.userInfoService.setUserWhenLogout();
     }
 
 
@@ -88,9 +77,18 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
             <React.Fragment>
 
                 {this.state.isLogin &&
-                    <Button variant="secondary" onClick={this.handleLogout.bind(this)}>
-                        登出
-                    </Button>
+
+                    <React.Fragment>
+
+                        <div>
+                            <p className="d-inline text-light align-middle">{"Hello: " + this.userNickname + " "} </p>
+                            <Button variant="secondary" onClick={this.handleLogout.bind(this)}>
+                                登出
+                            </Button>
+                        </div>
+
+                    </React.Fragment>
+
                 }
 
                 {!this.state.isLogin &&
@@ -98,9 +96,9 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                         登入/註冊
                     </Button>
                 }
-                
+
                 {this.state.showLoginFrom &&
-                    <LoginFrom closeItself={this.handleCloseLoginFrom.bind(this)} loginAction={this.handleLoginComplete.bind(this)}/>
+                    <LoginFrom closeItself={this.handleCloseLoginFrom.bind(this)} loginAction={this.handleLoginComplete.bind(this)} />
                 }
 
 

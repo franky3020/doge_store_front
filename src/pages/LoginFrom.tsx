@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
 
+import UserInfoService from "../service/UserInfo";
 
 import { login_and_getJWT } from "../getDataApi/WebApi";
 
@@ -37,16 +38,17 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
 
     async handleLoginButton() {
 
-        const TOKEN_NAME = "token";
         let email = this.state.email;
         let password = this.state.password;
 
 
-        let jwt_json = await login_and_getJWT(email, password);
-        if (jwt_json) {
-            localStorage.setItem(TOKEN_NAME, jwt_json.token);
+        let jwt = await login_and_getJWT(email, password);
+        if (jwt) {
             this.loginAction();
-            this.handleClose();
+            UserInfoService.getInstance().setUserFromJWT(jwt);
+
+            window.location.reload();
+
         } else {
             this.setState({
                 isInputErrorPassword: true

@@ -10,6 +10,5 @@ test('login and get jwt token', async () => {
     
     let jwt_exitUser = await login_and_getJWT("u_email","ya");
     expect(jwt_exitUser).not.toBe(null);
-    expect(jwt_exitUser.token).not.toBeUndefined();
 
 });

@@ -4,7 +4,8 @@ import React, { Component } from 'react';
 import Product, { IProductProps } from "./Product";
 
 import AppNavbar from '../AppNavbar';
-
+import UserInfoService from "../../service/UserInfo";
+import UserEntity from '../../entity/UserEntity';
 
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -20,11 +21,18 @@ export interface IProductAppState {
 export default class ProductApp extends Component<IProductAppProps, IProductAppState> {
 
     getProductsInterval: any = undefined;
+    userInfoService: UserInfoService;
 
+
+    userEntity:UserEntity|null = null;
+ 
     constructor(props: any) {
         super(props);
         this.state = { products: [] };
 
+        this.userInfoService = UserInfoService.getInstance();
+        this.userInfoService.setUserFromLocalStorageJWT();
+        this.userEntity = this.userInfoService.getUser();
     }
 
     componentDidMount() {
@@ -73,7 +81,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
     render() {
         return (
             <React.Fragment>
-                <AppNavbar />
+                <AppNavbar/>
                 <Container>
 
                     <Row gap={2}>
