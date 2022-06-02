@@ -5,11 +5,11 @@ import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
 import { login_and_getJWT } from "../getDataApi/WebApi";
 
 export interface ILoginFromProps {
-    show: boolean
+    closeItself: Function,
+    loginAction: Function
 }
 
 export interface ILoginFromState {
-    show: boolean,
     email: string,
     password: string,
     isInputErrorPassword: boolean,
@@ -20,7 +20,6 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
         super(props);
 
         this.state = {
-            show: props.show,
             email: "",
             password: "",
             isInputErrorPassword: false
@@ -28,9 +27,11 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
     }
 
     handleClose() {
-        this.setState({
-            show: false
-        });
+        this.props.closeItself();
+    }
+
+    loginAction() {
+        this.props.loginAction();
     }
 
 
@@ -44,6 +45,7 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
         let jwt_json = await login_and_getJWT(email, password);
         if (jwt_json) {
             localStorage.setItem(TOKEN_NAME, jwt_json.token);
+            this.loginAction();
             this.handleClose();
         } else {
             this.setState({
@@ -56,7 +58,7 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
     public render() {
         return (
 
-                <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
+                <Modal show={true} onHide={this.handleClose.bind(this)}>
                     <Modal.Header closeButton>
                         <Modal.Title>登入</Modal.Title>
                     </Modal.Header>
