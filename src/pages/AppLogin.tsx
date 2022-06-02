@@ -57,17 +57,13 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
         });
     }
 
-    handleLoginComplete() {
-        this.setState({
-            isLogin: true
-        });
-    }
-
     handleLogout() {
         this.setState({
             isLogin: false
         });
         this.userInfoService.setUserWhenLogout();
+        window.location.reload();
+
     }
 
 
@@ -98,7 +94,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                 }
 
                 {this.state.showLoginFrom &&
-                    <LoginFrom closeItself={this.handleCloseLoginFrom.bind(this)} loginAction={this.handleLoginComplete.bind(this)} />
+                    <LoginFrom closeItself={this.handleCloseLoginFrom.bind(this)} />
                 }
 
 

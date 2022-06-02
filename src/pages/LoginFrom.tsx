@@ -6,8 +6,7 @@ import UserInfoService from "../service/UserInfo";
 import { login_and_getJWT } from "../getDataApi/WebApi";
 
 export interface ILoginFromProps {
-    closeItself: Function,
-    loginAction: Function
+    closeItself: Function // Todo 這會要求每個呼叫者 要自行處理此元件的關閉
 }
 
 export interface ILoginFromState {
@@ -31,10 +30,6 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
         this.props.closeItself();
     }
 
-    loginAction() {
-        this.props.loginAction();
-    }
-
 
     async handleLoginButton() {
 
@@ -44,7 +39,6 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
 
         let jwt = await login_and_getJWT(email, password);
         if (jwt) {
-            this.loginAction();
             UserInfoService.getInstance().setUserFromJWT(jwt);
 
             window.location.reload();
@@ -60,46 +54,46 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
     public render() {
         return (
 
-                <Modal show={true} onHide={this.handleClose.bind(this)}>
-                    <Modal.Header closeButton>
-                        <Modal.Title>登入</Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
+            <Modal show={true} onHide={this.handleClose.bind(this)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>登入</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
 
-                        <Form>
-                            <Form.Group className="mb-3" controlId="formBasicEmail">
-                                <Form.Label>Email address</Form.Label>
-                                <Form.Control onChange={e => this.setState({ email: e.target.value, isInputErrorPassword: false })} type="email" placeholder="Enter email" />
-                                <Form.Text className="text-muted">
-                                    We'll never share your email with anyone else.
-                                </Form.Text>
-                            </Form.Group>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Email address</Form.Label>
+                            <Form.Control onChange={e => this.setState({ email: e.target.value, isInputErrorPassword: false })} type="email" placeholder="Enter email" />
+                            <Form.Text className="text-muted">
+                                We'll never share your email with anyone else.
+                            </Form.Text>
+                        </Form.Group>
 
-                            <Form.Group className="mb-3" controlId="formBasicPassword">
-                                <Form.Label>Password</Form.Label>
-                                <Form.Control onChange={e => this.setState({ password: e.target.value, isInputErrorPassword: false })} type="password" placeholder="Password" />
-                            </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Password</Form.Label>
+                            <Form.Control onChange={e => this.setState({ password: e.target.value, isInputErrorPassword: false })} type="password" placeholder="Password" />
+                        </Form.Group>
 
-                            {
+                        {
                             this.state.isInputErrorPassword &&
                             <Form.Text className="text-danger">
                                 Incorrect email or password
                             </Form.Text>
-                            }
-                        </Form>
+                        }
+                    </Form>
 
-                    </Modal.Body>
-                    <Modal.Footer>
+                </Modal.Body>
+                <Modal.Footer>
 
-                        <Button variant="primary" onClick={this.handleClose.bind(this)}>
-                            註冊
-                        </Button>
-                        <Button variant="primary" onClick={this.handleLoginButton.bind(this)}>
-                            登入
-                        </Button>
+                    <Button variant="primary" onClick={this.handleClose.bind(this)}>
+                        註冊
+                    </Button>
+                    <Button variant="primary" onClick={this.handleLoginButton.bind(this)}>
+                        登入
+                    </Button>
 
-                    </Modal.Footer>
-                </Modal>
+                </Modal.Footer>
+            </Modal>
 
         );
     }
