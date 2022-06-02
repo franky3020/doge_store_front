@@ -81,8 +81,8 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                         {
                             this.state.products.map(product => {
                                 return (
-                                    <Col sm={6} md={4}>
-                                        <Product key={product.id} id={product.id} name={product.name} create_user_id={product.create_user_id} price={product.price} describe={product.describe} />
+                                    <Col key={product.id} sm={6} md={4}>
+                                        <Product id={product.id} name={product.name} create_user_id={product.create_user_id} price={product.price} describe={product.describe} />
                                     </Col>
                                 );
                             })

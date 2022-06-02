@@ -9,7 +9,9 @@ export interface IAppLoginProps {
 }
 
 export interface IAppLoginState {
-    show: boolean
+    show: boolean,
+    email: string,
+    password: string,
 }
 
 export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginState> {
@@ -19,7 +21,9 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
 
 
         this.state = {
-            show: false
+            show: false,
+            email: "",
+            password: "",
         }
     }
 
@@ -35,8 +39,21 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
         });
     }
 
-    handleLoginButton() {
-        // login_and_getJWT();
+    async handleLoginButton() {
+
+        const TOKEN_NAME = "token";
+        let email = this.state.email;
+        let password = this.state.password;
+
+    
+        let jwt_json = await login_and_getJWT(email, password);
+        if(jwt_json) {
+            localStorage.setItem(TOKEN_NAME, jwt_json.token);
+            this.handleClose();
+        } else {
+            console.log("no login");
+        }
+        
     }
 
 
@@ -58,7 +75,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                         <Form>
                             <Form.Group className="mb-3" controlId="formBasicEmail">
                                 <Form.Label>Email address</Form.Label>
-                                <Form.Control type="email" placeholder="Enter email" />
+                                <Form.Control onChange={e => this.setState({ email: e.target.value })} type="email" placeholder="Enter email" />
                                 <Form.Text className="text-muted">
                                     We'll never share your email with anyone else.
                                 </Form.Text>
@@ -66,10 +83,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
 
                             <Form.Group className="mb-3" controlId="formBasicPassword">
                                 <Form.Label>Password</Form.Label>
-                                <Form.Control type="password" placeholder="Password" />
-                            </Form.Group>
-                            <Form.Group className="mb-3" controlId="formBasicCheckbox">
-                                <Form.Check type="checkbox" label="Check me out" />
+                                <Form.Control onChange={e => this.setState({ password: e.target.value })} type="password" placeholder="Password" />
                             </Form.Group>
                         </Form>
 
@@ -79,7 +93,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                         <Button variant="primary" onClick={this.handleClose.bind(this)}>
                             註冊
                         </Button>
-                        <Button variant="primary" onClick={this.handleClose.bind(this)}>
+                        <Button variant="primary" onClick={this.handleLoginButton.bind(this)}>
                             登入
                         </Button>
 
