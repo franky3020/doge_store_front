@@ -4,37 +4,27 @@ import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
 
 import { login_and_getJWT } from "../getDataApi/WebApi";
 
-export interface IAppLoginProps {
-
+export interface ILoginFromProps {
+    show: boolean
 }
 
-export interface IAppLoginState {
+export interface ILoginFromState {
     show: boolean,
     email: string,
     password: string,
-    isLogin: boolean,
     isInputErrorPassword: boolean,
 }
 
-export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginState> {
-    constructor(props: IAppLoginProps) {
+export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFromState> {
+    constructor(props: ILoginFromProps) {
         super(props);
 
-
-
         this.state = {
-            show: false,
+            show: props.show,
             email: "",
             password: "",
-            isLogin: false,
             isInputErrorPassword: false
         }
-    }
-
-    handleShow() {
-        this.setState({
-            show: true
-        });
     }
 
     handleClose() {
@@ -42,6 +32,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
             show: false
         });
     }
+
 
     async handleLoginButton() {
 
@@ -53,12 +44,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
         let jwt_json = await login_and_getJWT(email, password);
         if (jwt_json) {
             localStorage.setItem(TOKEN_NAME, jwt_json.token);
-            this.setState({
-                isLogin: true
-            });
-
             this.handleClose();
-            
         } else {
             this.setState({
                 isInputErrorPassword: true
@@ -67,31 +53,8 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
 
     }
 
-    logout() {
-        this.setState({
-            isLogin: false
-        });
-    }
-
-
-
     public render() {
         return (
-            <React.Fragment>
-
-                {this.state.isLogin &&
-                    <Button variant="secondary" onClick={this.logout.bind(this)}>
-                        登出
-                    </Button>
-                }
-
-                {!this.state.isLogin &&
-                    <Button variant="secondary" onClick={this.handleShow.bind(this)}>
-                        登入/註冊
-                    </Button>
-                }
-
-
 
                 <Modal show={this.state.show} onHide={this.handleClose.bind(this)}>
                     <Modal.Header closeButton>
@@ -119,8 +82,6 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                                 Incorrect email or password
                             </Form.Text>
                             }
-                            
-
                         </Form>
 
                     </Modal.Body>
@@ -136,7 +97,6 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                     </Modal.Footer>
                 </Modal>
 
-            </React.Fragment>
         );
     }
 }
