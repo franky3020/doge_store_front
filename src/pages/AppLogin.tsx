@@ -88,9 +88,11 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                 }
 
                 {!this.state.isLogin &&
-                    <Button variant="secondary" onClick={this.handleShowLoginFrom.bind(this)}>
-                        登入/註冊
-                    </Button>
+                    <div>
+                        <Button variant="secondary" onClick={this.handleShowLoginFrom.bind(this)}>
+                            登入/註冊
+                        </Button>
+                    </div>
                 }
 
                 {this.state.showLoginFrom &&

@@ -31,7 +31,9 @@ export default class AppNavbar extends React.Component<IAppNavbarProps, IAppNavb
                         <Nav>
                             <Nav.Link href="#purchased_list">已購買商品</Nav.Link>
                         </Nav>
-                        <AppLogin />
+                        <Nav>
+                            <AppLogin />
+                        </Nav>
                     </Navbar.Collapse>
 
                     
