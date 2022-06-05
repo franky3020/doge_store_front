@@ -86,10 +86,10 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
 
                     <Row >
                         <Col>
-                            <ImgCarousel />
+                            <ImgCarousel img_px_size="450px"/>
                         </Col>
                         <Col lg={8}>
-                            <View3D/>
+                            {/* <View3D/> */}
                         </Col>
 
                     </Row>
