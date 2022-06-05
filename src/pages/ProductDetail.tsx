@@ -3,6 +3,9 @@ import AppNavbar from './AppNavbar';
 import { Container, Row, Col, Carousel } from 'react-bootstrap';
 import ImgCarousel from "./ImgCarousel";
 
+import View3D from "./View3D";
+
+
 export interface IProductDetailProps {
 
 }
@@ -83,10 +86,10 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
 
                     <Row >
                         <Col>
-                            <ImgCarousel />
+                            <ImgCarousel img_px_size="450px"/>
                         </Col>
                         <Col lg={8}>
-
+                            {/* <View3D/> */}
                         </Col>
 
                     </Row>
