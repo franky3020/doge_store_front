@@ -1,10 +1,11 @@
 import * as React from 'react';
 import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
-import {user_register_api, login_and_getJWT} from "../getDataApi/WebApi";
+import { user_register_api, login_and_getJWT } from "../getDataApi/WebApi";
 import UserInfoService from "../service/UserInfo";
 
 
 export interface IRegisterFromProps {
+    showModel: boolean,
     closeItself: Function
 }
 
@@ -15,6 +16,7 @@ export interface IRegisterFromState {
     nickname: string,
     repeatPassword: string,
     isInputErrorRepeatPassword: boolean,
+    isOnRegisterUserError: boolean
 }
 
 export default class RegisterFrom extends React.Component<IRegisterFromProps, IRegisterFromState> {
@@ -27,6 +29,7 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
             password: "",
             repeatPassword: "",
             isInputErrorRepeatPassword: false,
+            isOnRegisterUserError: false,
         }
 
 
@@ -42,8 +45,9 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
         let password = this.state.password;
         let repeatPassword = this.state.repeatPassword;
 
-        if(password !== repeatPassword) {
-            this.setState({isInputErrorRepeatPassword: true});
+        if (password !== repeatPassword) {
+            this.setState({ isInputErrorRepeatPassword: true });
+            return;
         }
 
 
@@ -51,24 +55,52 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
         try {
             await user_register_api(email, password, nickname);
             let jwt = await login_and_getJWT(email, password);
-            if(jwt) {
+            if (jwt) {
                 UserInfoService.getInstance().setUserFromJWT(jwt);
                 window.location.reload();
             } else {
-                throw Error("not login");
+                throw Error("not register success");
             }
 
-        } catch(err) {
-            this.setState({isInputErrorRepeatPassword: true});
+        } catch (err) {
+            this.setState({ isOnRegisterUserError: true });
         }
 
 
     }
 
+    clearInputWarn() {
+        this.setState({
+            isInputErrorRepeatPassword: false,
+            isOnRegisterUserError: false
+        });
+    }
+
+    handleEmailInput(e: any) {
+        this.setState({ email: e.target.value });
+        this.clearInputWarn();
+    }
+
+    handleNicknameInput(e: any) {
+        this.setState({ nickname: e.target.value });
+        this.clearInputWarn();
+    }
+
+    handlePasswordInput(e: any) {
+        this.setState({ password: e.target.value });
+        this.clearInputWarn();
+    }
+    
+
+    handleRepeatPasswordInput(e: any) {
+        this.setState({ repeatPassword: e.target.value });
+        this.clearInputWarn();
+    }
+
 
     public render() {
         return (
-            <Modal show={true} onHide={this.handleClose.bind(this)}>
+            <Modal show={this.props.showModel} onHide={this.handleClose.bind(this)}>
                 <Modal.Header closeButton>
                     <Modal.Title>註冊</Modal.Title>
                 </Modal.Header>
@@ -77,31 +109,38 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control onChange={e => this.setState({ email: e.target.value, isInputErrorRepeatPassword: false})} type="email" placeholder="Enter email" />
+                            <Form.Control onChange={this.handleEmailInput.bind(this)} type="email" placeholder="Enter email" />
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                        <Form.Group className="mb-3">
                             <Form.Label>Nickname</Form.Label>
-                            <Form.Control onChange={e => this.setState({ nickname: e.target.value, isInputErrorRepeatPassword: false })} type="text" placeholder="nickname" />
+                            <Form.Control onChange={this.handleNicknameInput.bind(this)} type="text" placeholder="nickname" />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Password</Form.Label>
-                            <Form.Control onChange={e => this.setState({ password: e.target.value, isInputErrorRepeatPassword: false })} type="password" placeholder="Password" />
+                            <Form.Control onChange={this.handlePasswordInput.bind(this)} type="password" placeholder="Password" />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
                             <Form.Label>Repeat Password</Form.Label>
-                            <Form.Control onChange={e => this.setState({ repeatPassword: e.target.value, isInputErrorRepeatPassword: false })} type="password" placeholder="Password" />
+                            <Form.Control onChange={this.handleRepeatPasswordInput.bind(this)} type="password" placeholder="Password" />
                         </Form.Group>
 
                         {
                             this.state.isInputErrorRepeatPassword &&
                             <Form.Text className="text-danger">
                                 Incorrect on Repeat Password
+                            </Form.Text>
+                        }
+
+                        {
+                            this.state.isOnRegisterUserError &&
+                            <Form.Text className="text-danger">
+                                Register Error
                             </Form.Text>
                         }
 

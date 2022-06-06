@@ -3,7 +3,6 @@ import { Button, Row } from 'react-bootstrap';
 
 import LoginFrom from './LoginFrom';
 import UserInfoService from "../service/UserInfo";
-import UserEntity from '../entity/UserEntity';
 import RegisterFrom from './RegisterFrom';
 
 export interface IAppLoginProps {
@@ -13,10 +12,7 @@ export interface IAppLoginProps {
 export interface IAppLoginState {
     showLoginFrom: boolean,
     showRegisterFrom: boolean,
-    email: string,
-    password: string,
-    isLogin: boolean,
-    isInputErrorPassword: boolean,
+    isLogin: boolean
 }
 
 // Todo 應該要改名 因為不只負責login
@@ -40,10 +36,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
         this.state = {
             showLoginFrom: false,
             showRegisterFrom: false,
-            email: "",
-            password: "",
             isLogin: isLogin,
-            isInputErrorPassword: false
         }
     }
 
@@ -113,16 +106,8 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                     </div>
                 }
 
-                {this.state.showLoginFrom &&
-                    <LoginFrom closeItself={this.handleCloseLoginFrom.bind(this)} />
-                }
-
-
-                {this.state.showRegisterFrom &&
-                    <RegisterFrom closeItself={this.handleCloseRegisterFrom.bind(this)}/>
-                }
-
-
+                <LoginFrom showModel={this.state.showLoginFrom} closeItself={this.handleCloseLoginFrom.bind(this)} />
+                <RegisterFrom showModel={this.state.showRegisterFrom} closeItself={this.handleCloseRegisterFrom.bind(this)} />
 
             </React.Fragment >
         );
