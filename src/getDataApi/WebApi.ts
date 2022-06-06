@@ -30,3 +30,29 @@ export async function login_and_getJWT(email: string, password: string): Promise
     return null;
     
 }
+
+
+export async function user_register_api(email: string, password: string, nickname: string): Promise<void> {
+
+    try {
+        let res = await fetch('http://localhost:5000/api/user/register', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json",
+            },
+            body: JSON.stringify({
+                email,
+                password,
+                nickname
+            })
+        });
+
+        if(res.status !== 201) {
+            throw Error("register failed");
+        }
+
+    } catch(err) {
+        // if server not exist
+        throw err;
+    }
+}

@@ -84,10 +84,7 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
 
                 </Modal.Body>
                 <Modal.Footer>
-
-                    <Button variant="primary" onClick={this.handleClose.bind(this)}>
-                        註冊
-                    </Button>
+                    
                     <Button variant="primary" onClick={this.handleLoginButton.bind(this)}>
                         登入
                     </Button>
