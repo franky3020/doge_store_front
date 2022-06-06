@@ -4,7 +4,7 @@ import { Button, Row } from 'react-bootstrap';
 import LoginFrom from './LoginFrom';
 import UserInfoService from "../service/UserInfo";
 import UserEntity from '../entity/UserEntity';
-
+import RegisterFrom from './RegisterFrom';
 
 export interface IAppLoginProps {
 
@@ -12,6 +12,7 @@ export interface IAppLoginProps {
 
 export interface IAppLoginState {
     showLoginFrom: boolean,
+    showRegisterFrom: boolean,
     email: string,
     password: string,
     isLogin: boolean,
@@ -38,6 +39,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
 
         this.state = {
             showLoginFrom: false,
+            showRegisterFrom: false,
             email: "",
             password: "",
             isLogin: isLogin,
@@ -66,6 +68,18 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
 
     }
 
+    handleShowRegisterFrom() {
+        this.setState({
+            showRegisterFrom: true
+        });
+    }
+
+    handleCloseRegisterFrom() {
+        this.setState({
+            showRegisterFrom: false
+        });
+    }
+
 
 
     public render() {
@@ -89,8 +103,12 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
 
                 {!this.state.isLogin &&
                     <div>
+                        <Button variant="secondary" onClick={this.handleShowRegisterFrom.bind(this)}>
+                            註冊
+                        </Button>
+
                         <Button variant="secondary" onClick={this.handleShowLoginFrom.bind(this)}>
-                            登入/註冊
+                            登入
                         </Button>
                     </div>
                 }
@@ -98,6 +116,12 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                 {this.state.showLoginFrom &&
                     <LoginFrom closeItself={this.handleCloseLoginFrom.bind(this)} />
                 }
+
+
+                {this.state.showRegisterFrom &&
+                    <RegisterFrom closeItself={this.handleCloseRegisterFrom.bind(this)}/>
+                }
+
 
 
             </React.Fragment >
