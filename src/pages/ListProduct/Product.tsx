@@ -81,9 +81,7 @@ export default class Product extends React.Component<IProductProps, IProductStat
                     </Card.Body>
                 </Card>
 
-                {this.state.showLoginFrom &&
-                    <LoginFrom closeItself={this.handleCloseLoginFrom.bind(this)}/>
-                }
+                <LoginFrom showModel={this.state.showLoginFrom} closeItself={this.handleCloseLoginFrom.bind(this)}/>
 
             </React.Fragment>
         );

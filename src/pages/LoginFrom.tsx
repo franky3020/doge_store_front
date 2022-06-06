@@ -6,6 +6,7 @@ import UserInfoService from "../service/UserInfo";
 import { login_and_getJWT } from "../getDataApi/WebApi";
 
 export interface ILoginFromProps {
+    showModel: boolean,
     closeItself: Function // Todo 這會要求每個呼叫者 要自行處理此元件的關閉
 }
 
@@ -54,7 +55,7 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
     public render() {
         return (
 
-            <Modal show={true} onHide={this.handleClose.bind(this)}>
+            <Modal show={this.props.showModel} onHide={this.handleClose.bind(this)}>
                 <Modal.Header closeButton>
                     <Modal.Title>登入</Modal.Title>
                 </Modal.Header>

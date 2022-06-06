@@ -5,6 +5,7 @@ import UserInfoService from "../service/UserInfo";
 
 
 export interface IRegisterFromProps {
+    showModel:boolean,
     closeItself: Function
 }
 
@@ -68,7 +69,7 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
 
     public render() {
         return (
-            <Modal show={true} onHide={this.handleClose.bind(this)}>
+            <Modal show={this.props.showModel} onHide={this.handleClose.bind(this)}>
                 <Modal.Header closeButton>
                     <Modal.Title>註冊</Modal.Title>
                 </Modal.Header>

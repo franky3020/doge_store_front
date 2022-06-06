@@ -113,16 +113,8 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                     </div>
                 }
 
-                {this.state.showLoginFrom &&
-                    <LoginFrom closeItself={this.handleCloseLoginFrom.bind(this)} />
-                }
-
-
-                {this.state.showRegisterFrom &&
-                    <RegisterFrom closeItself={this.handleCloseRegisterFrom.bind(this)}/>
-                }
-
-
+                <LoginFrom showModel={this.state.showLoginFrom} closeItself={this.handleCloseLoginFrom.bind(this)} />
+                <RegisterFrom showModel={this.state.showRegisterFrom} closeItself={this.handleCloseRegisterFrom.bind(this)}/>
 
             </React.Fragment >
         );
