@@ -36,7 +36,7 @@ export default class ImgCarousel extends React.Component<IImgCarouselProps, IImg
     public render() {
         return (
 
-            <Carousel interval={null} className="img-contaoin" style={this.ImgCarousel_ImgSize}>
+            <Carousel interval={null} className="img-contain" style={this.ImgCarousel_ImgSize}>
                 <Carousel.Item>
                     <img
                         className="d-block w-100"

@@ -1,9 +1,6 @@
 
 
-
-
-
-.img-contaoin img {
+.img-contain img {
     background: lightgray;
     object-fit: contain;
 }
