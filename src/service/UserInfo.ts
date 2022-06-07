@@ -27,6 +27,10 @@ export default class UserInfoService {
         return this.userEntity;
     }
 
+    getJWT(): string|null{
+        return localStorage.getItem(UserInfoService.TOKEN_NAME);
+    }
+
     getUserNickname():string {
         if(this.userEntity) {
             return this.userEntity.nickname;
@@ -56,7 +60,6 @@ export default class UserInfoService {
         return false;
     }
 
-    // TODO: write test
     /** 
      * @throws {Error}
      */
