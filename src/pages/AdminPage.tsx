@@ -10,13 +10,15 @@ import { deleteById } from '../API/ProductAPI';
 import UserInfoService from '../service/UserInfo';
 import { BiArrowFromBottom } from "react-icons/bi";
 
+import AddProductModel from './AddProductModel';
 
 export interface IAdminPageProps {
 
 }
 
 export interface IAdminPageState {
-    products: ProductEntity[]
+    products: ProductEntity[],
+    addProductModelShow: boolean
 }
 
 export default class AdminPage extends React.Component<IAdminPageProps, IAdminPageState> {
@@ -39,7 +41,8 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
         super(props);
 
         this.state = {
-            products: []
+            products: [],
+            addProductModelShow: false
         }
     }
 
@@ -88,6 +91,18 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
         }
     }
 
+    handleAddProductModelShow() {
+        this.setState({
+            addProductModelShow: true
+        })
+    }
+
+    handleAddProductModelClose() {
+        this.setState({
+            addProductModelShow: false
+        })
+    }
+
 
 
 
@@ -113,9 +128,13 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
                 </ListGroup>
 
-                <Button className='position-fixed bottom-0 end-0 me-5 mb-5' style={this.buttonStyle} variant="primary" size="lg">
+                <Button className='position-fixed bottom-0 end-0 me-5 mb-5' style={this.buttonStyle} variant="primary" size="lg"
+                onClick={this.handleAddProductModelShow.bind(this)}
+                >
                     <BiArrowFromBottom style={this.buttonIconStyle}/>
                 </Button>
+                
+                <AddProductModel showModel={this.state.addProductModelShow} closeItself={this.handleAddProductModelClose.bind(this)}/>
 
             </React.Fragment>
         );

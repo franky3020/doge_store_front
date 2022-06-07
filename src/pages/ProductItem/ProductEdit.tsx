@@ -54,8 +54,6 @@ export default class ProductEdit extends React.Component<IProductEditProps, IPro
                 <Col>
                     <Button variant="danger" onClick={this.deleteSelf.bind(this)}>Delete</Button>
                 </Col>
-
-
             </Row>
         );
     }
