@@ -38,7 +38,6 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
     componentDidMount() {
 
         this.getProducts();
-        console.log("componentDidMount");
 
         if (typeof this.getProductsInterval === "undefined") {
             this.getProductsInterval = setInterval(() => {

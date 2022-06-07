@@ -56,17 +56,27 @@ export default class UserInfoService {
         return false;
     }
 
+    // TODO: write test
     /** 
      * @throws {Error}
      */
-    setUserFromJWT(token: string) { // if token can't decode, throw Error()
+    setUserFromJWT(token: string) { // if token can't decode, throw Error
         // 因為行為沒有完成, 所以要拋出錯誤, 不要選擇忽視
 
         let decode = jwt.decode(token);
+
         if (decode) {
-            this.init();
+
+            let checkKeys = ['id', 'email', 'nickname'];
+            for(const key of checkKeys) {
+                if(typeof decode[key] === "undefined") {
+                    throw new Error("error in jwt decode content");
+                }
+            }
+
+            this.clearUserData();
             localStorage.setItem(UserInfoService.TOKEN_NAME, token);
-            this.setUserWhenlogin(decode['id'], decode['email'], decode['nickname']);// Todo 沒檢查有沒有 該key
+            this.setUserWhenlogin(decode['id'], decode['email'], decode['nickname']);
         } else {
             throw new Error("error when jwt decode");
         }
@@ -78,13 +88,12 @@ export default class UserInfoService {
     }
 
     setUserWhenLogout() {
-        this.init();
-        localStorage.removeItem(UserInfoService.TOKEN_NAME);
-
+        this.clearUserData();
     }
 
-    init() {
+    clearUserData() {
         this.userEntity = null;
+        localStorage.removeItem(UserInfoService.TOKEN_NAME);
     }
 
 }
