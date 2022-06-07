@@ -35,7 +35,4 @@ test('test setUserFromJWT()', () => {
         userInfo.setUserFromJWT("add some error" + TEST_CORRECT_JWT);
     }).toThrow();
 
-    jwtFromLocalStorage = localStorage.getItem(UserInfoService.TOKEN_NAME)
-    expect(jwtFromLocalStorage).toBe(null);
-
 });

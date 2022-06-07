@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
-import { user_register_api, login_and_getJWT } from "../getDataApi/WebApi";
+import { user_register_api, login_and_getJWT } from "../API/UserAPI";
 import UserInfoService from "../service/UserInfo";
 
 

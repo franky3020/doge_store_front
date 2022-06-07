@@ -1,8 +1,3 @@
-
-
-// declare function require(name:string);
-// import jwt = require("jsonwebtoken");
-
 import * as jwt from 'jsonwebtoken';
 
 

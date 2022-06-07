@@ -3,7 +3,7 @@ import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
 
 import UserInfoService from "../service/UserInfo";
 
-import { login_and_getJWT } from "../getDataApi/WebApi";
+import { login_and_getJWT } from "../API/UserAPI";
 
 export interface ILoginFromProps {
     showModel: boolean,
