@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
-import { user_register_api, login_and_getJWT } from "../getDataApi/WebApi";
+import { user_register_api, login_and_getJWT } from "../API/UserAPI";
 import UserInfoService from "../service/UserInfo";
 
 
@@ -52,7 +52,10 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
 
 
         // Todo 需要改成檢查email 存在 與 是否為空值
+
+
         try {
+
             await user_register_api(email, password, nickname);
             let jwt = await login_and_getJWT(email, password);
             if (jwt) {
@@ -69,7 +72,7 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
 
     }
 
-    clearInputWarn() {
+    clearFormWarn() {
         this.setState({
             isInputErrorRepeatPassword: false,
             isOnRegisterUserError: false
@@ -78,23 +81,23 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
 
     handleEmailInput(e: any) {
         this.setState({ email: e.target.value });
-        this.clearInputWarn();
+        this.clearFormWarn();
     }
 
     handleNicknameInput(e: any) {
         this.setState({ nickname: e.target.value });
-        this.clearInputWarn();
+        this.clearFormWarn();
     }
 
     handlePasswordInput(e: any) {
         this.setState({ password: e.target.value });
-        this.clearInputWarn();
+        this.clearFormWarn();
     }
     
 
     handleRepeatPasswordInput(e: any) {
         this.setState({ repeatPassword: e.target.value });
-        this.clearInputWarn();
+        this.clearFormWarn();
     }
 
 
@@ -107,7 +110,7 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
                 <Modal.Body>
 
                     <Form>
-                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                        <Form.Group className="mb-3">
                             <Form.Label>Email address</Form.Label>
                             <Form.Control onChange={this.handleEmailInput.bind(this)} type="email" placeholder="Enter email" />
                             <Form.Text className="text-muted">
@@ -116,31 +119,31 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                            <Form.Label>Nickname</Form.Label>
+                            <Form.Label>暱稱 (長度: 1 ~ 20)</Form.Label>
                             <Form.Control onChange={this.handleNicknameInput.bind(this)} type="text" placeholder="nickname" />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
+                        <Form.Group className="mb-3">
+                            <Form.Label>密碼 (長度: 8 ~ 20)</Form.Label>
                             <Form.Control onChange={this.handlePasswordInput.bind(this)} type="password" placeholder="Password" />
                         </Form.Group>
 
-                        <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Repeat Password</Form.Label>
+                        <Form.Group className="mb-3">
+                            <Form.Label>密碼確認 (長度: 8 ~ 20)</Form.Label>
                             <Form.Control onChange={this.handleRepeatPasswordInput.bind(this)} type="password" placeholder="Password" />
                         </Form.Group>
 
                         {
                             this.state.isInputErrorRepeatPassword &&
                             <Form.Text className="text-danger">
-                                Incorrect on Repeat Password
+                                密碼 與 密碼確認 不相符
                             </Form.Text>
                         }
 
                         {
                             this.state.isOnRegisterUserError &&
                             <Form.Text className="text-danger">
-                                Register Error
+                                註冊失敗
                             </Form.Text>
                         }
 

@@ -3,7 +3,7 @@ import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
 
 import UserInfoService from "../service/UserInfo";
 
-import { login_and_getJWT } from "../getDataApi/WebApi";
+import { login_and_getJWT } from "../API/UserAPI";
 
 export interface ILoginFromProps {
     showModel: boolean,
@@ -34,23 +34,42 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
 
     async handleLoginButton() {
 
-        let email = this.state.email;
-        let password = this.state.password;
+        try {
+            let email = this.state.email;
+            let password = this.state.password;
 
 
-        let jwt = await login_and_getJWT(email, password);
-        if (jwt) {
+            let jwt = await login_and_getJWT(email, password);
             UserInfoService.getInstance().setUserFromJWT(jwt);
-
             window.location.reload();
-
-        } else {
+        } catch (err) {
+            console.error(err);
             this.setState({
                 isInputErrorPassword: true
             });
         }
 
     }
+
+    clearFormWarn() {
+        this.setState({ isInputErrorPassword: false });
+    }
+
+
+    handleEmailInput(e: any) {
+        this.setState({ email: e.target.value });
+        this.clearFormWarn();
+    }
+
+
+    handlePasswordInput(e: any) {
+        this.setState({ password: e.target.value });
+        this.clearFormWarn();
+    }
+
+
+
+
 
     public render() {
         return (
@@ -64,28 +83,28 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
                     <Form>
                         <Form.Group className="mb-3" controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                            <Form.Control onChange={e => this.setState({ email: e.target.value, isInputErrorPassword: false })} type="email" placeholder="Enter email" />
+                            <Form.Control onChange={this.handleEmailInput.bind(this)} type="email" placeholder="Enter email" />
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="formBasicPassword">
-                            <Form.Label>Password</Form.Label>
-                            <Form.Control onChange={e => this.setState({ password: e.target.value, isInputErrorPassword: false })} type="password" placeholder="Password" />
+                            <Form.Label>密碼</Form.Label>
+                            <Form.Control onChange={this.handlePasswordInput.bind(this)} type="password" placeholder="Password" />
                         </Form.Group>
 
                         {
                             this.state.isInputErrorPassword &&
                             <Form.Text className="text-danger">
-                                Incorrect email or password
+                                密碼或信箱錯誤
                             </Form.Text>
                         }
                     </Form>
 
                 </Modal.Body>
                 <Modal.Footer>
-                    
+
                     <Button variant="primary" onClick={this.handleLoginButton.bind(this)}>
                         登入
                     </Button>

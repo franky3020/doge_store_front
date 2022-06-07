@@ -8,6 +8,8 @@ import UserInfoService from "../../service/UserInfo";
 import UserEntity from '../../entity/UserEntity';
 
 import { Container, Row, Col } from 'react-bootstrap';
+import { getAllProducts } from "../../API/ProductAPI";
+import ProductEntity from '../../entity/ProductEntity';
 
 
 export interface IProductAppProps {
@@ -15,7 +17,7 @@ export interface IProductAppProps {
 }
 
 export interface IProductAppState {
-    products: IProductProps[]
+    products: ProductEntity[]
 }
 
 export default class ProductApp extends Component<IProductAppProps, IProductAppState> {
@@ -38,7 +40,6 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
     componentDidMount() {
 
         this.getProducts();
-        console.log("componentDidMount");
 
         if (typeof this.getProductsInterval === "undefined") {
             this.getProductsInterval = setInterval(() => {
@@ -53,29 +54,15 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
     }
 
 
-    getProducts() {
-        fetch('http://localhost:5000/api/product', { method: "GET" })
-            .then(res => res.json())
-            .then(data => {
-                let products = [];
+    async getProducts() {
 
-                for (let product of data) {
-                    let a_product: IProductProps = {
-                        "id": product['id'],
-                        "name": product['name'],
-                        "create_user_id": product['create_user_id'],
-                        "price": product['price'],
-                        "describe": product['describe']
-                    };
-
-                    products.push(a_product);
-                }
-
-                this.setState({ products: products });
-            })
-            .catch(e => {
-                console.log(e);
-            })
+        try {
+            let products_json = await getAllProducts();
+            let products = ProductEntity.createFromJson(products_json);
+            this.setState({ products: products });
+        } catch(err) {
+            console.error(err);
+        }
     }
 
     render() {
