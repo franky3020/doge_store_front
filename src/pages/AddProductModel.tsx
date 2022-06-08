@@ -11,61 +11,66 @@ export interface IAddProductModelState {
 }
 
 export default class AddProductModel extends React.Component<IAddProductModelProps, IAddProductModelState> {
-  constructor(props: IAddProductModelProps) {
-    super(props);
+    constructor(props: IAddProductModelProps) {
+        super(props);
 
-    this.state = {
-        isInputError: false
+        this.state = {
+            isInputError: false
+        }
     }
-  }
 
-  handleClose() {
+    handleClose() {
 
-  }
+    }
 
-  handleAddProductButton() {
+    handleAddProductButton() {
 
-  }
+    }
 
-  public render() {
-    return (
-        <Modal show={this.props.showModel} onHide={this.props.closeItself.bind(this)}>
-        <Modal.Header closeButton>
-            <Modal.Title>上傳產品</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
+    public render() {
+        return (
+            <Modal show={this.props.showModel} onHide={this.props.closeItself.bind(this)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>上傳產品</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
 
-            <Form>
-                <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>1</Form.Label>
-                    <Form.Control type="email" placeholder="Enter email" />
-                    <Form.Text className="text-muted">
-                        We'll never share your email with anyone else.
-                    </Form.Text>
-                </Form.Group>
+                    <Form>
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>1</Form.Label>
+                            <Form.Control type="email" placeholder="Enter email" />
+                            <Form.Text className="text-muted">
+                                We'll never share your email with anyone else.
+                            </Form.Text>
+                        </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                    <Form.Label>2</Form.Label>
-                    <Form.Control type="password" placeholder="Password" />
-                </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>2</Form.Label>
+                            <Form.Control type="password" placeholder="Password" />
+                        </Form.Group>
 
-                {
-                    this.state.isInputError &&
-                    <Form.Text className="text-danger">
-                        輸入錯誤
-                    </Form.Text>
-                }
-            </Form>
+                        <Form.Group controlId="formFileMultiple" className="mb-3">
+                            <Form.Label>Multiple files input example</Form.Label>
+                            <Form.Control type="file" multiple />
+                        </Form.Group>
 
-        </Modal.Body>
-        <Modal.Footer>
+                        {
+                            this.state.isInputError &&
+                            <Form.Text className="text-danger">
+                                輸入錯誤
+                            </Form.Text>
+                        }
+                    </Form>
 
-            <Button variant="primary" onClick={this.handleAddProductButton.bind(this)}>
-                送出
-            </Button>
+                </Modal.Body>
+                <Modal.Footer>
 
-        </Modal.Footer>
-    </Modal>
-    );
-  }
+                    <Button variant="primary" onClick={this.handleAddProductButton.bind(this)}>
+                        送出
+                    </Button>
+
+                </Modal.Footer>
+            </Modal>
+        );
+    }
 }

@@ -25,7 +25,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
         super(props);
 
         this.userInfoService = UserInfoService.getInstance();
-        this.userInfoService.setUserFromLocalStorageJWT();
+        // this.userInfoService.setUserFromLocalStorageJWT();
 
         let isLogin = false;
         if (this.userInfoService.isExistUser()) {
@@ -96,7 +96,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
 
                 {!this.state.isLogin &&
                     <div>
-                        <Button variant="secondary" onClick={this.handleShowRegisterFrom.bind(this)}>
+                        <Button className="me-2" variant="secondary" onClick={this.handleShowRegisterFrom.bind(this)}>
                             註冊
                         </Button>
 

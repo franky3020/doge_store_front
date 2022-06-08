@@ -20,6 +20,10 @@ export default class UserInfoService {
         if (typeof UserInfoService.instance === "undefined") {
             UserInfoService.instance = new UserInfoService();
         }
+
+        // Auto set jwt on each time getting instance
+        UserInfoService.instance.setUserFromLocalStorageJWT();
+
         return UserInfoService.instance;
     }
 
@@ -43,21 +47,26 @@ export default class UserInfoService {
         if(this.userEntity) {
             return true;
         } else {
-            return false;
+            // Take jwt from LocalStorage and check again
+            this.setUserFromLocalStorageJWT();
+            if(this.userEntity) {
+                return true;
+            }
         }
+
+        return false;
+
     }
 
-    setUserFromLocalStorageJWT(): boolean {
+    setUserFromLocalStorageJWT() {
         let jwt: string | null = localStorage.getItem(UserInfoService.TOKEN_NAME);
         if (jwt) {
             try {
                 this.setUserFromJWT(jwt);
-                return true;
             } catch(err) {
-                return false;
+                // Ignore error
             }
         }
-        return false;
     }
 
     /** 

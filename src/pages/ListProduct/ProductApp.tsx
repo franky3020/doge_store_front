@@ -23,18 +23,10 @@ export interface IProductAppState {
 export default class ProductApp extends Component<IProductAppProps, IProductAppState> {
 
     getProductsInterval: any = undefined;
-    userInfoService: UserInfoService;
 
-
-    userEntity:UserEntity|null = null;
- 
     constructor(props: any) {
         super(props);
         this.state = { products: [] };
-
-        this.userInfoService = UserInfoService.getInstance();
-        this.userInfoService.setUserFromLocalStorageJWT();
-        this.userEntity = this.userInfoService.getUser();
     }
 
     componentDidMount() {
