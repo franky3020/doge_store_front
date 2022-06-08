@@ -53,7 +53,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
         if (typeof this.getProductsInterval === "undefined") {
             this.getProductsInterval = setInterval(() => {
                 this.getProducts();
-            }, 5000);
+            }, 1000);
         }
     }
 

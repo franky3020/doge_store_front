@@ -25,8 +25,7 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
         super(props);
 
         this.userInfoService = UserInfoService.getInstance();
-        // this.userInfoService.setUserFromLocalStorageJWT();
-
+        
         let isLogin = false;
         if (this.userInfoService.isExistUser()) {
             isLogin = true;

@@ -24,3 +24,25 @@ export async function getAllProducts(): Promise<any> {
 
 }
 
+export async function addNewProduct(jwt: string, name: string, create_user_id: number, price: number, describe: string): Promise<void> {
+
+    let headers = new Headers();
+    headers.append('Authorization', "Bearer" + " " +  jwt);
+    headers.append('Content-Type', "application/json");
+
+    let body_json = JSON.stringify({
+        name,
+        create_user_id,
+        price,
+        describe
+    });
+
+
+    let res = await fetch(`${BASE_URL}/product`, { method: "POST", headers: headers, body: body_json});
+
+    if (res.status !== 201) {
+        throw Error("error on add new product");
+    }
+
+}
+
