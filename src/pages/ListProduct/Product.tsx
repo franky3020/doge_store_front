@@ -8,6 +8,8 @@ import { Button, Card } from 'react-bootstrap';
 import UserInfoService from "../../service/UserInfo";
 import UserEntity from '../../entity/UserEntity';
 import LoginFrom from "../LoginFrom";
+import { getProductImg } from "../../API/ImgAPI";
+
 
 export interface IProductProps {
     id: number,
@@ -27,8 +29,20 @@ export default class Product extends React.Component<IProductProps, IProductStat
     userInfoService: UserInfoService;
     isLogin: boolean = false;
 
+    imgSource: string = "";
+
+    imgSizeStyle = {
+        background: 'lightgray',
+        objectFit: 'contain',
+        height: "300px",
+        width: "100%"
+    } as any
+
+
     constructor(props: IProductProps) {
         super(props);
+
+        this.loadProductImg();
 
         this.userInfoService = UserInfoService.getInstance();
         if (this.userInfoService.isExistUser()) {
@@ -38,6 +52,22 @@ export default class Product extends React.Component<IProductProps, IProductStat
         this.state = {
             showLoginFrom: false
         }
+    }
+
+    // TODO: 無法讓圖片自動更新
+    // componentDidMount() {
+
+    //     setInterval(() => {
+    //         this.loadProductImg();
+    //     }, 1000);
+    // }
+
+    loadProductImg() {
+        getProductImg(this.props.id).then((imgSource) => {
+            this.imgSource = imgSource;
+        }).catch((err) => {
+            console.error(err);
+        });
     }
 
     handleShowLoginFrom() {
@@ -53,7 +83,7 @@ export default class Product extends React.Component<IProductProps, IProductStat
     }
 
     handleBuy() {
-        if(this.isLogin) {
+        if (this.isLogin) {
             // Todo 將會要求輸入購買密碼
         } else {
             this.handleShowLoginFrom();
@@ -68,7 +98,7 @@ export default class Product extends React.Component<IProductProps, IProductStat
             <React.Fragment>
                 <Card>
                     <Link to={"/product/" + this.props.id}>
-                        <Card.Img variant="top" src="https://random.imagecdn.app/250/250" />
+                        <Card.Img style={this.imgSizeStyle} variant="top" src={this.imgSource} />
                     </Link>
 
                     <Card.Body>
@@ -81,7 +111,7 @@ export default class Product extends React.Component<IProductProps, IProductStat
                     </Card.Body>
                 </Card>
 
-                <LoginFrom showModel={this.state.showLoginFrom} closeItself={this.handleCloseLoginFrom.bind(this)}/>
+                <LoginFrom showModel={this.state.showLoginFrom} closeItself={this.handleCloseLoginFrom.bind(this)} />
 
             </React.Fragment>
         );

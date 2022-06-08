@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Button, Modal, Form, Nav, NavDropdown } from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 
 import { addNewProduct } from "../API/ProductAPI";
 import UserInfoService from "../service/UserInfo";
@@ -24,6 +24,7 @@ export default class AddProductModel extends React.Component<IAddProductModelPro
     productName: React.RefObject<any>;
     productPrice: React.RefObject<any>;
     productDescribe: React.RefObject<any>;
+    productImgFile: React.RefObject<any>;
 
 
 
@@ -35,6 +36,7 @@ export default class AddProductModel extends React.Component<IAddProductModelPro
         this.productName = React.createRef();
         this.productPrice = React.createRef();
         this.productDescribe = React.createRef();
+        this.productImgFile = React.createRef();
         
 
 
@@ -86,7 +88,7 @@ export default class AddProductModel extends React.Component<IAddProductModelPro
             let price = this.productPrice.current.value;
             let describe = this.productDescribe.current.value;
 
-            await addNewProduct(jwt, name, create_user_id, price, describe)
+            await addNewProduct(jwt, name, create_user_id, price, describe);
 
             this.props.closeItself();
 
@@ -120,11 +122,6 @@ export default class AddProductModel extends React.Component<IAddProductModelPro
                         <Form.Group controlId="formBasicDescribe" className="mb-3">
                             <Form.Label>產品描述</Form.Label>
                             <Form.Control ref={this.productDescribe} onChange={this.handleCloseInputError.bind(this)} as="textarea" rows={3} />
-                        </Form.Group>
-
-                        <Form.Group controlId="formBasicFile" className="mb-3">
-                            <Form.Label>檔案上傳</Form.Label>
-                            <Form.Control type="file" onChange={this.handleCloseInputError.bind(this)} />
                         </Form.Group>
 
                         {

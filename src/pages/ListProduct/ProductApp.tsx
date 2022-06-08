@@ -63,12 +63,12 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                 <AppNavbar/>
                 <Container>
 
-                    <Row gap={2}>
+                    <Row gap={3}>
 
                         {
                             this.state.products.map(product => {
                                 return (
-                                    <Col key={product.id} sm={6} md={4}>
+                                    <Col className="mt-2 mb-2" key={product.id} sm={6} md={4} lg={3}>
                                         <Product id={product.id} name={product.name} create_user_id={product.create_user_id} price={product.price} describe={product.describe} />
                                     </Col>
                                 );

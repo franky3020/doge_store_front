@@ -49,7 +49,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     componentDidMount() {
 
         this.getProducts();
-
+        // TODO: 需刪除 Interval
         if (typeof this.getProductsInterval === "undefined") {
             this.getProductsInterval = setInterval(() => {
                 this.getProducts();
@@ -133,7 +133,6 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
                 >
                     <BiArrowFromBottom style={this.buttonIconStyle}/>
                 </Button>
-                
                 <AddProductModel showModel={this.state.addProductModelShow} closeItself={this.handleAddProductModelClose.bind(this)}/>
 
             </React.Fragment>

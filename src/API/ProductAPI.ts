@@ -46,3 +46,23 @@ export async function addNewProduct(jwt: string, name: string, create_user_id: n
 
 }
 
+
+// inputFile is from html input file, e.g.  ( ..., input.files[0] )
+export async function addProductImage(jwt: string, productId: number, inputFile: any): Promise<void> {
+
+    let headers = new Headers();
+    headers.append('Authorization', "Bearer" + " " +  jwt);
+
+
+    let data = new FormData();
+    data.append('uploaded_file', inputFile)
+
+
+    let res = await fetch(`${BASE_URL}/product/${productId.toString()}/upload`, { method: "POST", headers: headers, body: data});
+
+    if (res.status !== 201) {
+        throw Error("error on add new image of product");
+    }
+
+}
+
