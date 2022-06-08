@@ -34,10 +34,7 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
 
 
     }
-
-    handleClose() {
-        this.props.closeItself();
-    }
+    
 
     async handleRegister() {
         let email = this.state.email;
@@ -103,7 +100,7 @@ export default class RegisterFrom extends React.Component<IRegisterFromProps, IR
 
     public render() {
         return (
-            <Modal show={this.props.showModel} onHide={this.handleClose.bind(this)}>
+            <Modal show={this.props.showModel} onHide={this.props.closeItself.bind(this)}>
                 <Modal.Header closeButton>
                     <Modal.Title>註冊</Modal.Title>
                 </Modal.Header>

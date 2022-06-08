@@ -27,10 +27,6 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
         }
     }
 
-    handleClose() {
-        this.props.closeItself();
-    }
-
 
     async handleLoginButton() {
 
@@ -74,7 +70,7 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
     public render() {
         return (
 
-            <Modal show={this.props.showModel} onHide={this.handleClose.bind(this)}>
+            <Modal show={this.props.showModel} onHide={this.props.closeItself.bind(this)}>
                 <Modal.Header closeButton>
                     <Modal.Title>登入</Modal.Title>
                 </Modal.Header>

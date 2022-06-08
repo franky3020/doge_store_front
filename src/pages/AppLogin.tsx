@@ -106,7 +106,6 @@ export default class AppLogin extends React.Component<IAppLoginProps, IAppLoginS
                     </div>
                 }
 
-                {/* // TODO: 元件內直接呼叫 closeItself */}
                 <LoginFrom showModel={this.state.showLoginFrom} closeItself={this.handleCloseLoginFrom.bind(this)} />
                 <RegisterFrom showModel={this.state.showRegisterFrom} closeItself={this.handleCloseRegisterFrom.bind(this)} />
 
