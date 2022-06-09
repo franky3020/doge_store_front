@@ -6,7 +6,7 @@ import UserInfoService from '../../service/UserInfo';
 import { BsFillPencilFill } from "react-icons/bs";
 
 import { addProductImage } from "../../API/ProductAPI";
-import { getProductImg } from "../../API/ImgAPI";
+import { getProductImgAPI } from "../../API/ImgAPI";
 
 export interface IProductEditProps {
     id: number,
@@ -20,6 +20,7 @@ export interface IProductEditProps {
 export interface IProductEditState {
 }
 
+// TODO: 這元件做太多事了 需要一個單純顯示資料的 Product 元件
 export default class ProductEdit extends React.Component<IProductEditProps, IProductEditState> {
 
     productImgFile: React.RefObject<any>;
@@ -50,7 +51,7 @@ export default class ProductEdit extends React.Component<IProductEditProps, IPro
     } as any;
 
     loadProductImg() {
-        getProductImg(this.props.id).then((imgSource)=>{
+        getProductImgAPI(this.props.id).then((imgSource)=>{
             this.imgSource = imgSource;
         }).catch((err)=>{
             console.error(err);
