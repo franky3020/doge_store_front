@@ -12,7 +12,6 @@ export interface IProductUIProps {
     price: number,
     describe: string,
     imgURL: string,
-    handleBuy: Function,
     children?: React.ReactNode
 }
 

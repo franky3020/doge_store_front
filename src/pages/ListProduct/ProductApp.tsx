@@ -135,12 +135,14 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                             this.state.products.map(product => {
                                 return (
                                     <Col className="mt-2 mb-2" key={product.id} sm={6} md={4} lg={3}>
+
                                         <ProductUI id={product.id} name={product.name} create_user_id={product.create_user_id} 
-                                        price={product.price} describe={product.describe} imgURL={this.getProductImg(product.id)} handleBuy={this.handleBuy.bind(this)}>
+                                        price={product.price} describe={product.describe} imgURL={this.getProductImg(product.id)}>
 
                                             <Button className="w-100" variant="primary" onClick={this.handleBuy.bind(this)} >Buy</Button>
 
                                         </ProductUI>
+                                        
                                     </Col>
                                 );
                             })

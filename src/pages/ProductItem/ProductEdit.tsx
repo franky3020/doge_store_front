@@ -7,6 +7,7 @@ import { BsFillPencilFill } from "react-icons/bs";
 
 import { addProductImage } from "../../API/ProductAPI";
 import { getProductImgAPI } from "../../API/ImgAPI";
+import { addProductZipFile } from "../../API/PurchaseAPI";
 
 export interface IProductEditProps {
     id: number,
@@ -24,17 +25,18 @@ export interface IProductEditState {
 export default class ProductEdit extends React.Component<IProductEditProps, IProductEditState> {
 
     productImgFile: React.RefObject<any>;
+    productZipFile: React.RefObject<any>;
 
     userInfoService: UserInfoService;
 
     imgSource: string = ""
 
-
-
     constructor(props: IProductEditProps) {
         super(props);
 
         this.productImgFile = React.createRef();
+        this.productZipFile = React.createRef();
+
         this.userInfoService = UserInfoService.getInstance();
 
         this.loadProductImg();
@@ -65,29 +67,46 @@ export default class ProductEdit extends React.Component<IProductEditProps, IPro
 
     async handleUploadImg() {
 
-        if(this.productImgFile.current.files.length === 0) {
+        let files = this.productImgFile.current.files;
+
+        if(files.length === 0) {
             return;
         }
 
         try {
-        
-
-            if (this.userInfoService.isExistUser() === false) {
-                throw Error("you need login first");
-            }
-
 
             let jwt = this.userInfoService.getJWT();
             if (jwt === null) {
                 throw Error("not have jwt");
             }
 
-            await addProductImage(jwt, this.props.id, this.productImgFile.current.files[0]);
+            await addProductImage(jwt, this.props.id, files[0]);
 
             // TODO: 不會自動更新圖片
             this.loadProductImg();
-           
-            
+
+        } catch (err) {
+            console.error(err);
+        }
+
+
+    }
+
+    async handleUploadZipfile() {
+
+        let files = this.productZipFile.current.files;
+        if(files.length === 0) {
+            return;
+        }
+
+        try {
+        
+            let jwt = this.userInfoService.getJWT();
+            if (jwt === null) {
+                throw Error("not have jwt");
+            }
+
+            await addProductZipFile(jwt, this.props.id, files[0]);
 
         } catch (err) {
             console.error(err);
@@ -111,6 +130,12 @@ export default class ProductEdit extends React.Component<IProductEditProps, IPro
 
                     <label>
                         <input ref={this.productImgFile} onChange={this.handleUploadImg.bind(this)} className="invisible" type="file" />
+                        <BsFillPencilFill />
+                    </label>
+
+                    <label>
+                        <input ref={this.productZipFile} onChange={this.handleUploadZipfile.bind(this)} className="invisible" type="file" />
+                        <p>ZIP: </p>
                         <BsFillPencilFill />
                     </label>
 
