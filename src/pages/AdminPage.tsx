@@ -29,18 +29,18 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     getProductsInterval: any = undefined;
     productsImgURL: { [product_id: number]: string };
 
-    buttonStyle = {
+    uploadProductButtonStyle = {
         height: '5rem',
         width: '5rem',
         borderRadius: '50%',
     }
 
-    buttonIconStyle = {
+    uploadProductButtonIconStyle = {
         height: '3rem',
         width: '3rem',
     }
 
-    style_img_size = {
+    imgSizeStyle = {
         background: 'lightgray',
         objectFit: 'contain',
         height: "100px",
@@ -63,12 +63,16 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
         this.getProducts();
 
-        // TODO: 需刪除 Interval
         if (typeof this.getProductsInterval === "undefined") {
             this.getProductsInterval = setInterval(() => {
                 this.getProducts();
             }, 5000);
         }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.getProductsInterval);
+        this.getProductsInterval = undefined;
     }
 
     async getProducts() {
@@ -95,10 +99,6 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     async handleDelete(id: number) {
         try {
             let jwt = UserInfoService.getInstance().getJWT();
-            if (jwt === null) {
-                throw Error("don't have jwt");
-            }
-
             await deleteById(id, jwt);
 
             // 用 filter 速度會快很多, 不要用deepclone的方法
@@ -131,9 +131,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
         try {
             let jwt = UserInfoService.getInstance().getJWT();
-            if (jwt === null) {
-                throw Error("don't have jwt");
-            }
+         
 
             await addProductImage(jwt, product_id, files[0]);
 
@@ -153,10 +151,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
         try {
             let jwt = UserInfoService.getInstance().getJWT();
-            if (jwt === null) {
-                throw Error("don't have jwt");
-            }
-
+        
             await addProductZipFile(jwt, product_id, files[0]);
        
         } catch (err) {
@@ -170,9 +165,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
       
         try {
             let jwt = UserInfoService.getInstance().getJWT();
-            if (jwt === null) {
-                throw Error("don't have jwt");
-            }
+        
 
             await downloadProductZipFile(jwt, product_id, fileName);
        
@@ -200,7 +193,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
                                         <Col sm={2}>
                                             <h4>{product.name}</h4>
                                             <img
-                                                style={this.style_img_size}
+                                                style={this.imgSizeStyle}
                                                 src={this.productsImgURL[product.id]}
                                             />
                                         </Col>
@@ -245,10 +238,10 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
                 </ListGroup>
 
-                <Button className='position-fixed bottom-0 end-0 me-5 mb-5' style={this.buttonStyle} variant="primary" size="lg"
+                <Button className='position-fixed bottom-0 end-0 me-5 mb-5' style={this.uploadProductButtonStyle} variant="primary" size="lg"
                     onClick={this.handleAddProductModelShow.bind(this)}
                 >
-                    <BiArrowFromBottom style={this.buttonIconStyle} />
+                    <BiArrowFromBottom style={this.uploadProductButtonIconStyle} />
                 </Button>
                 <AddProductModel showModel={this.state.addProductModelShow} closeItself={this.handleAddProductModelClose.bind(this)} />
 

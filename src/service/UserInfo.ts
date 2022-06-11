@@ -31,8 +31,14 @@ export default class UserInfoService {
         return this.userEntity;
     }
 
-    getJWT(): string|null{
-        return localStorage.getItem(UserInfoService.TOKEN_NAME);
+    getJWT(): string {
+        let jwt = localStorage.getItem(UserInfoService.TOKEN_NAME);
+
+        if (jwt === null) {
+            throw Error("don't have jwt");
+        }
+
+        return jwt
     }
 
     getUserNickname():string {

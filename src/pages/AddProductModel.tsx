@@ -71,9 +71,7 @@ export default class AddProductModel extends React.Component<IAddProductModelPro
 
 
             let jwt = this.userInfoService.getJWT();
-            if (jwt === null) {
-                throw Error("not have jwt");
-            }
+        
 
             let create_user_id = null;
 
