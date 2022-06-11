@@ -13,7 +13,7 @@ import AddProductModel from './AddProductModel';
 import { getProductImgURLV2 } from "../API/ImgAPI";
 import { addProductImage } from "../API/ProductAPI";
 import { addProductZipFile, downloadProductZipFile} from "../API/PurchaseAPI";
-
+import APIFacade from "../API/APIFacade";
 
 export interface IAdminPageProps {
 
@@ -88,8 +88,6 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
             this.productsImgURL = getProductImgURLV2(...products.map(p => p.id as number));
 
-
-
         } catch (err) {
             console.error(err);
         }
@@ -123,52 +121,35 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
         })
     }
 
-    async handleUploadImg(files: FileList | null, product_id: number) {
-
-        if (files === null || files.length === 0) {
-            return;
-        }
+    // 如果沒指定 file, 則不執行 TODO: 等等檢查
+    async handleUploadImg( product_id: number, files: FileList | null) {
 
         try {
-            let jwt = UserInfoService.getInstance().getJWT();
-         
-
-            await addProductImage(jwt, product_id, files[0]);
-
-            // TODO: 以下不會自動更新圖片
-            // this.loadProductImg();
-
+            if(files){
+                await APIFacade.addProductImage(product_id, files[0]);
+            }
         } catch (err) {
             console.error(err);
         }
     }
 
-    async handleUploadZipfile(files: FileList | null, product_id: number) {
-
-        if (files === null || files.length === 0) {
-            return;
-        }
+    async handleUploadZipfile(product_id: number, files: FileList | null) {
 
         try {
-            let jwt = UserInfoService.getInstance().getJWT();
-        
-            await addProductZipFile(jwt, product_id, files[0]);
-       
+            if(files){
+                await APIFacade.addProductZipFile(product_id, files[0]);
+            }
         } catch (err) {
             console.error(err);
         }
+        
 
     }
 
     async handleDownloadZipfile(product_id: number, fileName: string) {
 
-      
         try {
-            let jwt = UserInfoService.getInstance().getJWT();
-        
-
-            await downloadProductZipFile(jwt, product_id, fileName);
-       
+            await APIFacade.downloadProductZipFile(product_id, fileName);
         } catch (err) {
             console.error(err);
         }
@@ -207,12 +188,12 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
 
                                             <label className="d-block" >
-                                                <input onChange={(e) => { this.handleUploadImg(e.target.files, product.id); }} className="d-none" type="file" />
+                                                <input onChange={(e) => { this.handleUploadImg(product.id, e.target.files); }} className="d-none" type="file" />
                                                 <h3>上傳圖片:  <span className="badge bg-secondary">開啟</span></h3>
                                             </label>
 
                                             <label className="d-block" >
-                                                <input onChange={(e) => { this.handleUploadZipfile(e.target.files, product.id); }} className="d-none" type="file" />
+                                                <input onChange={(e) => { this.handleUploadZipfile(product.id, e.target.files); }} className="d-none" type="file" />
                                                 <h3>上傳付費ZIP檔:  <span className="badge bg-secondary">開啟</span></h3>
                                             </label>
 
