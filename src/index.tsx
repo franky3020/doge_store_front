@@ -6,8 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import ProductApp from "./pages/ListProduct/ProductApp";
 import ProductDetail from './pages/ProductDetail';
-import AdminPage from './pages/AdminPage';
-import AdminPageV2 from './pages/AdminPageV2';
+import AdminPageV2 from './pages/AdminPage';
 // Todo 背景設定顏色 FEF3E0
 
 export default function App() {
