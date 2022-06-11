@@ -11,7 +11,7 @@ import { getAllProducts } from "../../API/ProductAPI";
 import ProductEntity from '../../entity/ProductEntity';
 import LoginFrom from "../LoginFrom";
 
-import { getProductImgAPI } from "../../API/ImgAPI";
+import { getProductImgURL } from "../../API/ImgAPI";
 
 export interface IProductAppProps {
 
@@ -87,7 +87,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
 
     loadProductImg(id: number) {
 
-        getProductImgAPI(id).then((imgSource) => {
+        getProductImgURL(id).then((imgSource) => {
             this.productImg[id] = imgSource
         }).catch((err: any) => {
             console.error(err);

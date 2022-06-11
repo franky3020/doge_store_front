@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProductApp from "./pages/ListProduct/ProductApp";
 import ProductDetail from './pages/ProductDetail';
 import AdminPage from './pages/AdminPage';
+import AdminPageV2 from './pages/AdminPageV2';
 // Todo 背景設定顏色 FEF3E0
 
 export default function App() {
@@ -16,7 +17,7 @@ export default function App() {
         <Route path="/">
           <Route index element={<ProductApp />} />
           <Route path="product/:id" element={<ProductDetail />} />
-          <Route path="admin" element={<AdminPage />} />
+          <Route path="admin" element={<AdminPageV2 />} />
           {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
           <Route path="*" element={<NoPage />} /> */}

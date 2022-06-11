@@ -6,7 +6,7 @@ import UserInfoService from '../../service/UserInfo';
 import { BsFillPencilFill } from "react-icons/bs";
 
 import { addProductImage } from "../../API/ProductAPI";
-import { getProductImgAPI } from "../../API/ImgAPI";
+import { getProductImgURL } from "../../API/ImgAPI";
 import { addProductZipFile } from "../../API/PurchaseAPI";
 
 export interface IProductEditProps {
@@ -53,7 +53,7 @@ export default class ProductEdit extends React.Component<IProductEditProps, IPro
     } as any;
 
     loadProductImg() {
-        getProductImgAPI(this.props.id).then((imgSource)=>{
+        getProductImgURL(this.props.id).then((imgSource)=>{
             this.imgSource = imgSource;
         }).catch((err)=>{
             console.error(err);
