@@ -2,17 +2,11 @@ import * as React from 'react';
 import { ListGroup, Button, Row, Col } from 'react-bootstrap';
 import AppNavbar from "./AppNavbar";
 import ProductEntity from '../entity/ProductEntity';
-import { getAllProducts } from "../API/ProductAPI";
 
-import { deleteById } from '../API/ProductAPI';
-
-import UserInfoService from '../service/UserInfo';
 import { BiArrowFromBottom } from "react-icons/bi";
 
 import AddProductModel from './AddProductModel';
 import { getProductImgURLV2 } from "../API/ImgAPI";
-import { addProductImage } from "../API/ProductAPI";
-import { addProductZipFile, downloadProductZipFile} from "../API/PurchaseAPI";
 import APIFacade from "../API/APIFacade";
 
 export interface IAdminPageProps {
@@ -78,13 +72,11 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     async getProducts() {
         try {
 
-            let products_json = await getAllProducts();
-            let products = ProductEntity.createFromJson(products_json);
+            let products = await APIFacade.getAllProducts();
 
             this.setState({
                 products: products
             })
-
 
             this.productsImgURL = getProductImgURLV2(...products.map(p => p.id as number));
 
@@ -96,8 +88,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
     async handleDelete(id: number) {
         try {
-            let jwt = UserInfoService.getInstance().getJWT();
-            await deleteById(id, jwt);
+            await APIFacade.deleteProductById(id);
 
             // 用 filter 速度會快很多, 不要用deepclone的方法
             this.setState({

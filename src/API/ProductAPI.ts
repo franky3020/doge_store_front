@@ -3,7 +3,7 @@ import { BASE_URL } from "./APISource";
 /** 
  * @throws {Error}
  */
-export async function deleteById(id: number, jwt: string): Promise<void> {
+export async function deleteProductById(id: number, jwt: string): Promise<void> {
 
     let jwtHeader = new Headers();
     jwtHeader.append('Authorization', "Bearer" + " " +  jwt);
