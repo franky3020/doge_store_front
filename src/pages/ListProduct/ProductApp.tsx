@@ -13,6 +13,8 @@ import LoginFrom from "../LoginFrom";
 
 import { getProductImgURL } from "../../API/ImgAPI";
 
+import APIFacade from "../../API/APIFacade";
+
 export interface IProductAppProps {
 
 }
@@ -103,12 +105,19 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
       
     }
 
-    handleBuy() {
-        if (this.state.isLogin) {
-            // Todo 將會要求輸入購買密碼
-        } else {
-            this.handleShowLoginFrom();
+    async handleBuy(product_id: number) {
+
+
+        try {
+            if (this.state.isLogin) {
+                await APIFacade.purchase(product_id);
+            } else {
+                this.handleShowLoginFrom();
+            }
+        } catch(err) {
+            console.error(err);
         }
+        
     }
 
     handleShowLoginFrom() {
@@ -139,7 +148,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                                         <ProductUI id={product.id} name={product.name} create_user_id={product.create_user_id} 
                                         price={product.price} describe={product.describe} imgURL={this.getProductImg(product.id)}>
 
-                                            <Button className="w-100" variant="primary" onClick={this.handleBuy.bind(this)} >Buy</Button>
+                                            <Button className="w-100" variant="primary" onClick={this.handleBuy.bind(this, product.id)} >Buy</Button>
 
                                         </ProductUI>
                                         

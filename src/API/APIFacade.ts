@@ -1,6 +1,6 @@
 import { addProductImage } from "./ProductAPI";
 import UserInfoService from '../service/UserInfo';
-import { addProductZipFile, downloadProductZipFile } from "../API/PurchaseAPI";
+import { addProductZipFile, downloadProductZipFile, purchase } from "../API/PurchaseAPI";
 import { deleteProductById, getAllProducts } from '../API/ProductAPI';
 import ProductEntity from '../entity/ProductEntity';
 
@@ -43,11 +43,18 @@ export default class APIFacade {
         let jwt = UserInfoService.getInstance().getJWT();
         await deleteProductById(product_id, jwt);
     }
-    static async getAllProducts(): Promise< ProductEntity[] > {
 
+    static async getAllProducts(): Promise< ProductEntity[] > {
+        
         let products_json = await getAllProducts();
         let products = ProductEntity.createFromJson(products_json);
         return products;
+    }
+    
+    static async purchase(product_id: number) {
+        
+        let jwt = UserInfoService.getInstance().getJWT();
+        await purchase(jwt, product_id);
     }
 
 
