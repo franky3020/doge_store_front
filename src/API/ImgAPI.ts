@@ -30,7 +30,7 @@ export function getProductImgURLV2(...productId: number[]): { [product_id: numbe
         if (isImgExist) {
             productsImgURL[p_id] = productImgSource;
         } else {
-            productsImgURL[p_id] = productImgSource;
+            productsImgURL[p_id] = RANDOM_IMG_URL;
         }
         
     }

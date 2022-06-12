@@ -175,17 +175,17 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
                                             <p>{product.describe}</p>
 
                                         </Col>
-                                        <Col sm={2}>
+                                        <Col sm={4}>
 
 
                                             <label className="d-block" >
                                                 <input onChange={(e) => { this.handleUploadImg(product.id, e.target.files); }} className="d-none" type="file" />
-                                                <h3>上傳圖片:  <span className="badge bg-secondary">開啟</span></h3>
+                                                <h3>圖片: <span className="badge bg-secondary">上傳</span></h3>
                                             </label>
 
                                             <label className="d-block" >
                                                 <input onChange={(e) => { this.handleUploadZipfile(product.id, e.target.files); }} className="d-none" type="file" />
-                                                <h3>上傳付費ZIP檔:  <span className="badge bg-secondary">開啟</span></h3>
+                                                <h3>付費ZIP檔: <span className="badge bg-secondary">上傳</span></h3>
                                             </label>
 
                                             <Button variant="danger" onClick={this.handleDownloadZipfile.bind(this, product.id, product.name)}>下載ZIP檔</Button>
@@ -196,7 +196,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
                                             <Button variant="danger" onClick={this.handleDelete.bind(this, product.id)}>Delete</Button>
                                         </Col>
 
-                                        <Col sm={4}>
+                                        <Col sm={2}>
 
                                         </Col>
                                     </Row>

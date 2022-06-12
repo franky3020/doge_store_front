@@ -149,7 +149,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                                         price={product.price} describe={product.describe} imgURL={this.getProductImg(product.id)}>
 
                                             <Button className="w-100" variant="primary" onClick={this.handleBuy.bind(this, product.id)} >Buy</Button>
-
+                                            {/* // TODO: 以上改成用函數產生要讓產品具有那些操作 */}
                                         </ProductUI>
                                         
                                     </Col>
