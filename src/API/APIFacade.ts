@@ -1,6 +1,6 @@
 import { addProductImage } from "./ProductAPI";
 import UserInfoService from '../service/UserInfo';
-import { addProductZipFile, downloadProductZipFile, purchase } from "../API/PurchaseAPI";
+import { addProductZipFile, downloadProductZipFile, purchase, getPurchaseList } from "../API/PurchaseAPI";
 import { deleteProductById, getAllProducts } from '../API/ProductAPI';
 import ProductEntity from '../entity/ProductEntity';
 
@@ -57,17 +57,12 @@ export default class APIFacade {
         await purchase(jwt, product_id);
     }
 
-
-
-
-
-
-
-
-
-
-
-
+    static async getPurchaseList(): Promise<number[]> {
+        
+        let jwt = UserInfoService.getInstance().getJWT();
+        let productIdList = await getPurchaseList(jwt);
+        return productIdList;
+    }
 
 
 }

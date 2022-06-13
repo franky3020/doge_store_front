@@ -35,10 +35,6 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
     constructor(props: any) {
         super(props);
 
-        
-
-
-
         this.productImg = {};
 
         let isLogin = false;
@@ -51,7 +47,6 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
             showLoginFrom: false,
             isLogin: isLogin };
 
-        
     }
 
     componentDidMount() {

@@ -59,3 +59,19 @@ export async function purchase(jwt: string, product_id: number): Promise<void> {
     }
 
 }
+
+export async function getPurchaseList(jwt: string): Promise<number[]> {
+
+    let headers = new Headers();
+    headers.append('Authorization', "Bearer" + " " +  jwt);
+
+
+    let res = await fetch(`${BASE_URL}/purchase`, { method: "GET", headers: headers});
+
+    if (res.status !== 200) {
+        throw Error("error on get purchaseList");
+    }
+
+    let idList = await res.json();
+    return idList;
+}
