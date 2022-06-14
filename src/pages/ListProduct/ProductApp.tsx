@@ -6,9 +6,10 @@ import { Container, Row, Col, Button } from 'react-bootstrap';
 import { getAllProducts } from "../../API/ProductAPI";
 import ProductEntity from '../../entity/ProductEntity';
 import LoginFrom from "../LoginFrom";
-import { getProductImgURLV2} from "../../API/ImgAPI";
+import { getProductImgURLV2 } from "../../API/ImgAPI";
 import APIFacade from "../../API/APIFacade";
-import {API_POLLING_TIMEOUT} from "../../config";
+import { API_POLLING_TIMEOUT } from "../../config";
+import SuccessMessage from "../SuccessMessage";
 
 export interface IProductAppProps {
 
@@ -18,30 +19,34 @@ export interface IProductAppState {
     products: ProductEntity[],
     userPurchaseList: number[], // save products id list
     showLoginFrom: boolean,
+    showSuccessMessage: boolean,
     isLogin: boolean
 }
 
 export default class ProductApp extends Component<IProductAppProps, IProductAppState> {
 
     updateInfoAPIInterval: any = undefined;
-    userInfoService: UserInfoService;
-    productImg: {[key: number]: string};
+    productImg: { [key: number]: string };
 
     constructor(props: any) {
         super(props);
 
         this.productImg = {};
 
+        let userInfoService = UserInfoService.getInstance();
+
         let isLogin = false;
-        this.userInfoService = UserInfoService.getInstance();
-        if (this.userInfoService.isExistUser()) {
+        if (userInfoService.isExistUser()) {
             isLogin = true;
         }
 
-        this.state = { products: [],
+        this.state = {
+            products: [],
             userPurchaseList: [],
             showLoginFrom: false,
-            isLogin: isLogin };
+            showSuccessMessage: false,
+            isLogin: isLogin
+        };
 
     }
 
@@ -65,13 +70,13 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
         try {
             let products_json = await getAllProducts();
             let products = ProductEntity.createFromJson(products_json);
-            
+
             this.productImg = getProductImgURLV2(...products.map(p => p.id as number));
             this.getUserPurchaseList();
-            
+
             this.setState({ products: products });
 
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
 
@@ -79,24 +84,24 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
 
     async getUserPurchaseList() {
 
-        if(this.state.isLogin === false) {
+        if (this.state.isLogin === false) {
             return;
         }
 
         // if user login
         try {
-            
+
             let userPurchaseList = await APIFacade.getPurchaseList();
             this.setState({ userPurchaseList: userPurchaseList });
 
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
     }
 
     getProductsOperateButton(product_id: number, product_name: string) {
 
-        if( this.state.userPurchaseList.includes(product_id) ) {
+        if (this.state.userPurchaseList.includes(product_id)) {
             return (
                 <Button className="w-100" variant="primary" onClick={this.handleDownloadZipfile.bind(this, product_id, product_name)} >下載ZIP檔</Button>
             );
@@ -111,6 +116,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
 
         try {
             await APIFacade.downloadProductZipFile(product_id, fileName);
+            this.handleSuccessMessage();
         } catch (err) {
             console.error(err);
         }
@@ -119,24 +125,39 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
 
     getProductImg(id: number) {
 
-        if(typeof this.productImg[id] !== "undefined") {
+        if (typeof this.productImg[id] !== "undefined") {
             return this.productImg[id];
         }
         return "";
-      
+
     }
 
     async handleBuy(product_id: number) {
         try {
             if (this.state.isLogin) {
                 await APIFacade.purchase(product_id);
-            } else {
+                this.handleSuccessMessage();
+            } else { // if not login, show LoginFrom
                 this.handleShowLoginFrom();
             }
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
     }
+
+
+    handleSuccessMessage() {
+        this.setState({
+            showSuccessMessage: true
+        });
+
+        setTimeout(()=>{
+            this.setState({
+                showSuccessMessage: false
+            });
+        }, 5000)
+    }
+
 
     handleShowLoginFrom() {
         this.setState({
@@ -153,7 +174,13 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
     render() {
         return (
             <React.Fragment>
-                <AppNavbar/>
+
+                {this.state.showSuccessMessage &&
+                    <SuccessMessage />
+                }
+
+
+                <AppNavbar />
                 <Container>
 
                     <Row gap={3}>
@@ -163,14 +190,14 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                                 return (
                                     <Col className="mt-2 mb-2" key={product.id} sm={6} md={4} lg={3}>
 
-                                        <ProductUI id={product.id} name={product.name} create_user_id={product.create_user_id} 
-                                        price={product.price} describe={product.describe} imgURL={this.getProductImg(product.id)}>
+                                        <ProductUI id={product.id} name={product.name} create_user_id={product.create_user_id}
+                                            price={product.price} describe={product.describe} imgURL={this.getProductImg(product.id)}>
 
-                                          
+
                                             {this.getProductsOperateButton(product.id, product.name)}
-                                            
+
                                         </ProductUI>
-                                        
+
                                     </Col>
                                 );
                             })

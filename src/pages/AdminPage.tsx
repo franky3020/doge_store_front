@@ -2,12 +2,15 @@ import * as React from 'react';
 import { ListGroup, Button, Row, Col } from 'react-bootstrap';
 import AppNavbar from "./AppNavbar";
 import ProductEntity from '../entity/ProductEntity';
-
 import { BiArrowFromBottom } from "react-icons/bi";
-
 import AddProductModel from './AddProductModel';
 import { getProductImgURLV2 } from "../API/ImgAPI";
 import APIFacade from "../API/APIFacade";
+import UserInfoService from "../service/UserInfo";
+import { ADMIN_ID } from "../config";
+import UserEntity from "../entity/UserEntity";
+import LoginFrom from "./LoginFrom";
+
 
 export interface IAdminPageProps {
 
@@ -15,7 +18,8 @@ export interface IAdminPageProps {
 
 export interface IAdminPageState {
     products: ProductEntity[],
-    addProductModelShow: boolean
+    addProductModelShow: boolean,
+    isAdminLogin: boolean
 }
 
 export default class AdminPage extends React.Component<IAdminPageProps, IAdminPageState> {
@@ -45,15 +49,32 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     constructor(props: IAdminPageProps) {
         super(props);
 
+        let userInfoService = UserInfoService.getInstance();
+
+        let isAdminLogin = false
+        if (userInfoService.isExistUser()) {
+
+            let user = userInfoService.getUser() as UserEntity;
+            if (user.id === ADMIN_ID) {
+                isAdminLogin = true;
+            }
+
+        }
+
         this.productsImgURL = {};
 
         this.state = {
             products: [],
-            addProductModelShow: false
+            addProductModelShow: false,
+            isAdminLogin: isAdminLogin
         }
     }
 
     componentDidMount() {
+
+        if (this.state.isAdminLogin === false) {
+            return;
+        }
 
         this.getProducts();
 
@@ -67,6 +88,14 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     componentWillUnmount() {
         clearInterval(this.getProductsInterval);
         this.getProductsInterval = undefined;
+    }
+
+    ifNotAdminLoginShowLoginFrom() {
+        if (this.state.isAdminLogin === false) {
+            return (
+                <LoginFrom showModel={true} closeItself={() => {}} hasCloseBuuton={false} />
+            )
+        }
     }
 
     async getProducts() {
@@ -113,10 +142,10 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     }
 
     // 如果沒指定 file, 則不執行 TODO: 等等檢查
-    async handleUploadImg( product_id: number, files: FileList | null) {
+    async handleUploadImg(product_id: number, files: FileList | null) {
 
         try {
-            if(files){
+            if (files) {
                 await APIFacade.addProductImage(product_id, files[0]);
             }
         } catch (err) {
@@ -127,13 +156,13 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     async handleUploadZipfile(product_id: number, files: FileList | null) {
 
         try {
-            if(files){
+            if (files) {
                 await APIFacade.addProductZipFile(product_id, files[0]);
             }
         } catch (err) {
             console.error(err);
         }
-        
+
 
     }
 
@@ -151,6 +180,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     public render() {
         return (
             <React.Fragment>
+                {this.ifNotAdminLoginShowLoginFrom()}
 
                 <AppNavbar />
                 <ListGroup>

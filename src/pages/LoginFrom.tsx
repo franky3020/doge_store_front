@@ -7,7 +7,8 @@ import { login_and_getJWT } from "../API/UserAPI";
 
 export interface ILoginFromProps {
     showModel: boolean,
-    closeItself: Function // Todo 這會要求每個呼叫者 要自行處理此元件的關閉
+    closeItself: Function, // Todo 這會要求每個呼叫者 要自行處理此元件的關閉
+    hasCloseBuuton?: boolean
 }
 
 export interface ILoginFromState {
@@ -17,6 +18,11 @@ export interface ILoginFromState {
 }
 
 export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFromState> {
+
+    public static defaultProps = {
+        hasCloseBuuton: true
+    };
+
     constructor(props: ILoginFromProps) {
         super(props);
 
@@ -71,9 +77,23 @@ export default class LoginFrom extends React.Component<ILoginFromProps, ILoginFr
         return (
 
             <Modal show={this.props.showModel} onHide={this.props.closeItself.bind(this)}>
-                <Modal.Header closeButton>
-                    <Modal.Title>登入</Modal.Title>
-                </Modal.Header>
+
+
+                {this.props.hasCloseBuuton &&
+
+                    <Modal.Header closeButton>
+                        <Modal.Title>登入</Modal.Title>
+                    </Modal.Header>
+
+                }  {/* else */}
+                {!this.props.hasCloseBuuton &&
+                    <Modal.Header>
+                        <Modal.Title>登入</Modal.Title>
+                    </Modal.Header>
+                }
+
+
+
                 <Modal.Body>
 
                     <Form>
