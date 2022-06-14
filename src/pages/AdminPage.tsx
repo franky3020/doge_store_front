@@ -10,7 +10,7 @@ import UserInfoService from "../service/UserInfo";
 import { ADMIN_ID } from "../config";
 import UserEntity from "../entity/UserEntity";
 import LoginFrom from "./LoginFrom";
-
+import SuccessMessage from './SuccessMessage';
 
 export interface IAdminPageProps {
 
@@ -19,6 +19,7 @@ export interface IAdminPageProps {
 export interface IAdminPageState {
     products: ProductEntity[],
     addProductModelShow: boolean,
+    showSuccessMessage: boolean,
     isAdminLogin: boolean
 }
 
@@ -66,6 +67,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
         this.state = {
             products: [],
             addProductModelShow: false,
+            showSuccessMessage: false,
             isAdminLogin: isAdminLogin
         }
     }
@@ -129,6 +131,18 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
         }
     }
 
+    handleSuccessMessage() {
+        this.setState({
+            showSuccessMessage: true
+        });
+
+        setTimeout(()=>{
+            this.setState({
+                showSuccessMessage: false
+            });
+        }, 4000)
+    }
+
     handleAddProductModelShow() {
         this.setState({
             addProductModelShow: true
@@ -147,6 +161,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
         try {
             if (files) {
                 await APIFacade.addProductImage(product_id, files[0]);
+                this.handleSuccessMessage();
             }
         } catch (err) {
             console.error(err);
@@ -158,6 +173,8 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
         try {
             if (files) {
                 await APIFacade.addProductZipFile(product_id, files[0]);
+                this.handleSuccessMessage();
+
             }
         } catch (err) {
             console.error(err);
@@ -170,6 +187,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
         try {
             await APIFacade.downloadProductZipFile(product_id, fileName);
+            this.handleSuccessMessage();
         } catch (err) {
             console.error(err);
         }
@@ -180,7 +198,12 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     public render() {
         return (
             <React.Fragment>
+                
                 {this.ifNotAdminLoginShowLoginFrom()}
+
+                {this.state.showSuccessMessage &&
+                    <SuccessMessage />
+                }
 
                 <AppNavbar />
                 <ListGroup>

@@ -147,6 +147,8 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
 
 
     handleSuccessMessage() {
+
+        // TODO: 如果user按很快 會有問題
         this.setState({
             showSuccessMessage: true
         });
@@ -155,7 +157,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
             this.setState({
                 showSuccessMessage: false
             });
-        }, 5000)
+        }, 4000)
     }
 
 
