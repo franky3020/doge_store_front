@@ -148,8 +148,6 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
     }
 
 
-
-
     public render() {
         return (
             <React.Fragment>

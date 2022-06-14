@@ -32,7 +32,7 @@ export function getProductImgURLV2(...productId: number[]): { [product_id: numbe
         } else {
             productsImgURL[p_id] = RANDOM_IMG_URL;
         }
-        
+
     }
     return productsImgURL;
 
@@ -41,7 +41,8 @@ export function getProductImgURLV2(...productId: number[]): { [product_id: numbe
 // 使用同步版本圖片載入速度是最快的
 function ckeckSourceExistV2(sourceURL: string): boolean {
 
-    var xhr = new XMLHttpRequest();
+
+    let xhr = new XMLHttpRequest();
     xhr.open('HEAD', sourceURL, false);
     xhr.send();
 

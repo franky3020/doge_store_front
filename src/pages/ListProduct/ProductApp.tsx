@@ -1,19 +1,14 @@
-
 import React, { Component } from 'react';
-
 import ProductUI from "./ProductUI";
-
 import AppNavbar from '../AppNavbar';
 import UserInfoService from "../../service/UserInfo";
-
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { getAllProducts } from "../../API/ProductAPI";
 import ProductEntity from '../../entity/ProductEntity';
 import LoginFrom from "../LoginFrom";
-
-import { getProductImgURL } from "../../API/ImgAPI";
-
+import { getProductImgURLV2} from "../../API/ImgAPI";
 import APIFacade from "../../API/APIFacade";
+import {API_POLLING_TIMEOUT} from "../../config";
 
 export interface IProductAppProps {
 
@@ -21,16 +16,16 @@ export interface IProductAppProps {
 
 export interface IProductAppState {
     products: ProductEntity[],
+    userPurchaseList: number[], // save products id list
     showLoginFrom: boolean,
     isLogin: boolean
 }
 
 export default class ProductApp extends Component<IProductAppProps, IProductAppState> {
 
-    getProductsInterval: any = undefined;
+    updateInfoAPIInterval: any = undefined;
     userInfoService: UserInfoService;
     productImg: {[key: number]: string};
-
 
     constructor(props: any) {
         super(props);
@@ -44,51 +39,82 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
         }
 
         this.state = { products: [],
+            userPurchaseList: [],
             showLoginFrom: false,
             isLogin: isLogin };
 
     }
 
     componentDidMount() {
-        this.getProducts();
 
-        if (typeof this.getProductsInterval === "undefined") {
-            this.getProductsInterval = setInterval(() => {
-                this.getProducts();
-            }, 5000);
+        if (typeof this.updateInfoAPIInterval === "undefined") {
+            this.updateInfoFromAPI();
+            this.updateInfoAPIInterval = setInterval(() => {
+                this.updateInfoFromAPI();
+            }, API_POLLING_TIMEOUT);
         }
     }
 
     componentWillUnmount() {
-        clearInterval(this.getProductsInterval);
-        this.getProductsInterval = undefined;
+        clearInterval(this.updateInfoAPIInterval);
+        this.updateInfoAPIInterval = undefined;
     }
 
-
-    async getProducts() {
+    async updateInfoFromAPI() {
 
         try {
             let products_json = await getAllProducts();
             let products = ProductEntity.createFromJson(products_json);
             
-            for(let p of products) {
-                this.loadProductImg(p.id);
-            }
+            this.productImg = getProductImgURLV2(...products.map(p => p.id as number));
+            this.getUserPurchaseList();
             
             this.setState({ products: products });
 
         } catch(err) {
             console.error(err);
         }
+
     }
 
-    loadProductImg(id: number) {
+    async getUserPurchaseList() {
 
-        getProductImgURL(id).then((imgSource) => {
-            this.productImg[id] = imgSource
-        }).catch((err: any) => {
+        if(this.state.isLogin === false) {
+            return;
+        }
+
+        // if user login
+        try {
+            
+            let userPurchaseList = await APIFacade.getPurchaseList();
+            this.setState({ userPurchaseList: userPurchaseList });
+
+        } catch(err) {
             console.error(err);
-        });
+        }
+    }
+
+    getProductsOperateButton(product_id: number, product_name: string) {
+
+        if( this.state.userPurchaseList.includes(product_id) ) {
+            return (
+                <Button className="w-100" variant="primary" onClick={this.handleDownloadZipfile.bind(this, product_id, product_name)} >下載ZIP檔</Button>
+            );
+        } else {
+            return (
+                <Button className="w-100" variant="primary" onClick={this.handleBuy.bind(this, product_id)} >購買ZIP檔</Button>
+            );
+        }
+    }
+
+    async handleDownloadZipfile(product_id: number, fileName: string) {
+
+        try {
+            await APIFacade.downloadProductZipFile(product_id, fileName);
+        } catch (err) {
+            console.error(err);
+        }
+
     }
 
     getProductImg(id: number) {
@@ -101,8 +127,6 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
     }
 
     async handleBuy(product_id: number) {
-
-
         try {
             if (this.state.isLogin) {
                 await APIFacade.purchase(product_id);
@@ -112,7 +136,6 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
         } catch(err) {
             console.error(err);
         }
-        
     }
 
     handleShowLoginFrom() {
@@ -143,15 +166,19 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                                         <ProductUI id={product.id} name={product.name} create_user_id={product.create_user_id} 
                                         price={product.price} describe={product.describe} imgURL={this.getProductImg(product.id)}>
 
-                                            <Button className="w-100" variant="primary" onClick={this.handleBuy.bind(this, product.id)} >Buy</Button>
-                                            {/* // TODO: 以上改成用函數產生要讓產品具有那些操作 */}
+                                          
+                                            {this.getProductsOperateButton(product.id, product.name)}
+                                            
                                         </ProductUI>
                                         
                                     </Col>
                                 );
                             })
                         }
+
+                        {/* // if user not login and click buy, then show  <LoginFrom> */}
                         <LoginFrom showModel={this.state.showLoginFrom} closeItself={this.handleCloseLoginFrom.bind(this)} />
+
                     </Row>
                 </Container>
 
