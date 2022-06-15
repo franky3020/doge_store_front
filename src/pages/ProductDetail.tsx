@@ -1,5 +1,5 @@
 import * as React from 'react';
-import AppNavbar from './AppNavbar';
+import AppNavbar from '../component/AppNavbar';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { getProductImgURLV2 } from "../API/ImgAPI";
 import BuyProductButton from "../component/BuyProductButton";

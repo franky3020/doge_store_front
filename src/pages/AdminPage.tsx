@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { ListGroup, Button, Row, Col } from 'react-bootstrap';
-import AppNavbar from "./AppNavbar";
+import AppNavbar from "../component/AppNavbar";
 import ProductEntity from '../entity/ProductEntity';
 import { BiArrowFromBottom } from "react-icons/bi";
 import AddProductModel from '../component/AddProductModel';

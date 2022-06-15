@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
-import AppLogin from "../component/AppLogin";
+import AppLogin from "./AppLogin";
 
 export interface IAppNavbarProps {
 }

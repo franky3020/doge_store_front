@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import ProductUI from "../component/ProductUI";
-import AppNavbar from './AppNavbar';
+import AppNavbar from '../component/AppNavbar';
 import UserInfoService from "../service/UserInfo";
 import { Container, Row, Col } from 'react-bootstrap';
 import { getAllProducts } from "../API/ProductAPI";
