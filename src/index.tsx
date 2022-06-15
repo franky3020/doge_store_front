@@ -4,7 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import ProductApp from "./pages/ListProduct/ProductApp";
+import ProductApp from "./pages/ProductApp";
 import ProductDetail from './pages/ProductDetail';
 import AdminPageV2 from './pages/AdminPage';
 // Todo 背景設定顏色 FEF3E0

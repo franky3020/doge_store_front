@@ -3,14 +3,14 @@ import { ListGroup, Button, Row, Col } from 'react-bootstrap';
 import AppNavbar from "./AppNavbar";
 import ProductEntity from '../entity/ProductEntity';
 import { BiArrowFromBottom } from "react-icons/bi";
-import AddProductModel from './AddProductModel';
+import AddProductModel from '../component/AddProductModel';
 import { getProductImgURLV2 } from "../API/ImgAPI";
 import APIFacade from "../API/APIFacade";
 import UserInfoService from "../service/UserInfo";
 import { ADMIN_ID } from "../config";
 import UserEntity from "../entity/UserEntity";
-import LoginFrom from "./LoginFrom";
-import SuccessMessage from './SuccessMessage';
+import LoginFrom from "../component/LoginFrom";
+import SuccessMessage from '../component/SuccessMessage';
 
 export interface IAdminPageProps {
 
