@@ -2,6 +2,7 @@ import * as React from 'react';
 import AppNavbar from '../component/AppNavbar';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { getProductImgURLV2 } from "../API/ImgAPI";
+import { getProductById } from "../API/ProductAPI";
 import BuyProductButton from "../component/BuyProductButton";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import APIFacade from "../API/APIFacade";
@@ -57,11 +58,11 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
 
     componentDidMount() {
 
-        this.getProduct();
+        this.updateProductInfo();
 
         if (typeof this.getProductInterval === "undefined") {
             this.getProductInterval = setInterval(() => {
-                this.getProduct();
+                this.updateProductInfo();
             }, 1000);
         }
 
@@ -72,32 +73,35 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
         this.getProductInterval = undefined;
     }
 
-    getProduct() {
+    async updateProductInfo() {
         let pathArray = window.location.pathname.split('/'); // Todo 這有bug 因為 Component 不會自動關閉
         let product_id = Number(pathArray[pathArray.length - 1]);
+
+        if(isNaN(product_id)) {
+            return;
+        }
+
         this.setState({
             id: product_id
         });
+
+        
         this.productImgURL = getProductImgURLV2(product_id)[product_id];
 
-
-
-        fetch('http://localhost:5000/api/product/' + product_id, { method: "GET" })
-            .then(res => res.json())
-            .then(data => {
-                let product = data;
-
-                this.setState({
-                    name: product["name"],
-                    create_user_id: product["create_user_id"],
-                    price: product["price"],
-                    describe: product["describe"]
-                });
-            })
-            .catch(e => {
-                console.log(e);
+        try {
+            let product = await getProductById(product_id);
+            this.setState({
+                name: product["name"],
+                create_user_id: product["create_user_id"],
+                price: product["price"],
+                describe: product["describe"]
             });
-        this.getUserPurchaseList()
+        } catch(err) {
+            console.error(err);
+        }
+
+        this.getUserPurchaseList();
+        
     }
 
     async getUserPurchaseList() {
@@ -136,10 +140,12 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
     public render() {
         return (
             <React.Fragment>
-                <AppNavbar />
+
+                <AppNavbar/>
+
                 <Container>
 
-                    <Row >
+                    <Row>
                         <Col>
 
                             <img
@@ -161,15 +167,14 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
                             </Row>
 
 
-                            <Row>
+                            <Row className='mt-3'>
                                 <h4>產品描述: </h4>
-                            </Row>
-
-                            <Row>
                                 <h5>{this.state.describe}</h5>
                             </Row>
 
-                            <Row>
+                         
+
+                            <Row className='mt-5'>
                                 {this.getProductsOperateButton(this.state.id, this.state.name)}
                             </Row>
 

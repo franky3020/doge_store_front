@@ -8,7 +8,6 @@ import ProductEntity from '../entity/ProductEntity';
 import { getProductImgURLV2 } from "../API/ImgAPI";
 import APIFacade from "../API/APIFacade";
 import { API_POLLING_TIMEOUT } from "../config";
-import SuccessMessage from "../component/SuccessMessage";
 import BuyProductButton from "../component/BuyProductButton";
 import DownloadProductButton from '../component/DownloadProductButton';
 

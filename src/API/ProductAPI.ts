@@ -24,6 +24,14 @@ export async function getAllProducts(): Promise<any> {
 
 }
 
+export async function getProductById(id: number): Promise<any> {
+
+    let res = await fetch(`${BASE_URL}/product/` + id.toString(), { method: "GET" });
+    let product_json = await res.json();
+    return product_json;
+
+}
+
 export async function addNewProduct(jwt: string, name: string, create_user_id: number, price: number, describe: string): Promise<void> {
 
     let headers = new Headers();

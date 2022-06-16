@@ -11,6 +11,7 @@ import { ADMIN_ID } from "../config";
 import UserEntity from "../entity/UserEntity";
 import LoginFrom from "../component/LoginFrom";
 import SuccessMessage from '../component/SuccessMessage';
+import DownloadProductButton from '../component/DownloadProductButton';
 
 export interface IAdminPageProps {
 
@@ -183,18 +184,6 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
 
     }
 
-    async handleDownloadZipfile(product_id: number, fileName: string) {
-
-        try {
-            await APIFacade.downloadProductZipFile(product_id, fileName);
-            this.handleSuccessMessage();
-        } catch (err) {
-            console.error(err);
-        }
-
-    }
-
-
     public render() {
         return (
             <React.Fragment>
@@ -239,7 +228,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
                                                 <h3>付費ZIP檔: <span className="badge bg-secondary">上傳</span></h3>
                                             </label>
 
-                                            <Button variant="danger" onClick={this.handleDownloadZipfile.bind(this, product.id, product.name)}>下載ZIP檔</Button>
+                                            <DownloadProductButton overWriteClassName="" product_id={product.id} product_name={product.name} />
 
                                         </Col>
 

@@ -9,16 +9,24 @@ import SuccessMessage from "./SuccessMessage";
 export interface IDownloadProductButtonProps {
     product_id: number,
     product_name: string,
-    children?: React.ReactNode
+    overWriteClassName?: string
 }
 
 export interface IDownloadProductButtonState {
     showSuccessMessage: boolean,
 }
 
+// default button width is 100%
 export default class DownloadProductButton extends React.Component<IDownloadProductButtonProps, IDownloadProductButtonState> {
+    
+    buttonClassName: string = "w-100"
+    
     constructor(props: IDownloadProductButtonProps) {
         super(props);
+
+        if(typeof this.props.overWriteClassName !== "undefined") {
+            this.buttonClassName = this.props.overWriteClassName
+        }
 
         this.state = {
             showSuccessMessage: false
@@ -57,7 +65,7 @@ export default class DownloadProductButton extends React.Component<IDownloadProd
                 {this.state.showSuccessMessage &&
                     <SuccessMessage />
                 }
-                <Button className="w-100" variant="success" onClick={this.handleDownloadZipfile.bind(this, this.props.product_id, this.props.product_name)} >
+                <Button className={this.buttonClassName} variant="success" onClick={this.handleDownloadZipfile.bind(this, this.props.product_id, this.props.product_name)} >
                     下載 zip檔
                 </Button>
 
