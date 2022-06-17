@@ -144,15 +144,17 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
 
 
 
-                <ListGroup>
+                <ListGroup className="gap-4">
 
                     {
                         this.state.products.map(product => {
                             return (
                                 <ListGroup.Item key={product.id}>
+                                    <h4>{product.name}</h4>
+
                                     <Row>
                                         <Col sm={2}>
-                                            <h4>{product.name}</h4>
+                                            
 
                                             <Link to={"/product/" + product.id}>
                                                 <img
@@ -163,8 +165,8 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
 
                                         </Col>
                                         <Col sm={2}>
-                                            <p>describe: </p>
-                                            <p>{product.describe}</p>
+                                            <p>產品描述: </p>
+                                            {product.describe}
                                         </Col>
                                         <Col sm={4}>
                                             <DownloadProductButton overWriteClassName="" product_id={product.id} product_name={product.name} />

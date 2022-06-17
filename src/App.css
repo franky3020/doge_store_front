@@ -1,3 +1,9 @@
+
+
+body {
+    background-color: #FEF3E0
+}
+
 .img-contain img {
     background: lightgray;
     object-fit: contain;

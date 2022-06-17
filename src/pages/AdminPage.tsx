@@ -195,7 +195,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
                 }
 
                 <AppNavbar />
-                <ListGroup>
+                <ListGroup className="gap-4">
 
                     {
                         this.state.products.map(product => {

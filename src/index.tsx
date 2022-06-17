@@ -10,6 +10,7 @@ import AdminPageV2 from './pages/AdminPage';
 import PurchaseListPage from './pages/PurchaseListPage';
 import StoreIntroducePage from './pages/StoreIntroducePage';
 
+import "./App.css";
 // TODO: 背景設定顏色 FEF3E0
 
 export default function App() {
@@ -23,9 +24,6 @@ export default function App() {
           <Route path="/purchased_list" element={<PurchaseListPage />} />
           <Route path="/store_introduction" element={<StoreIntroducePage />} />
 
-          {/* <Route path="blogs" element={<Blogs />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} /> */}
         </Route>
       </Routes>
     </BrowserRouter>
@@ -45,4 +43,4 @@ root.render(
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+// reportWebVitals(console.log);
