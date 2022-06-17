@@ -44,13 +44,19 @@ function ckeckSourceExistV2(sourceURL: string): boolean {
 
     let xhr = new XMLHttpRequest();
     xhr.open('HEAD', sourceURL, false);
-    xhr.send();
 
-    if (xhr.status != 404) {
-        return true;
-    } else {
+    try {
+        xhr.send();
+    } catch(err) {
         return false;
     }
+    
+    if (xhr.status != 404) {
+        return true;
+    }
+
+    return false;
+    
 }
 
 // 非同步版本的會很慢 因為它需要等其它網頁同步的事情完成, 等於檔案只能在最後才載入

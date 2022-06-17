@@ -1,6 +1,6 @@
 
 
-import {BASE_URL} from "./APISource";
+import {API_URL} from "./APISource";
 
 
 export async function login_and_getJWT(email: string, password: string): Promise<any|null> {
@@ -8,7 +8,7 @@ export async function login_and_getJWT(email: string, password: string): Promise
     // 須加上錯誤處理 解決如果後端根本不存在的情況
 
     try {
-        let res = await fetch(`${BASE_URL}/user/login`, {
+        let res = await fetch(`${API_URL}/user/login`, {
             method: "POST",
             headers: {
                 "content-type": "application/json",
@@ -39,7 +39,7 @@ export async function login_and_getJWT(email: string, password: string): Promise
  */
 export async function user_register_api(email: string, password: string, nickname: string): Promise<void> {
 
-    let res = await fetch(`${BASE_URL}/user/register`, {
+    let res = await fetch(`${API_URL}/user/register`, {
         method: "POST",
         headers: {
             "content-type": "application/json",

@@ -8,6 +8,7 @@ import ProductApp from "./pages/ProductApp";
 import ProductDetail from './pages/ProductDetail';
 import AdminPageV2 from './pages/AdminPage';
 import PurchaseListPage from './pages/PurchaseListPage';
+import StoreIntroducePage from './pages/StoreIntroducePage';
 
 // TODO: 背景設定顏色 FEF3E0
 
@@ -20,6 +21,8 @@ export default function App() {
           <Route path="product/:id" element={<ProductDetail />} />
           <Route path="admin" element={<AdminPageV2 />} />
           <Route path="/purchased_list" element={<PurchaseListPage />} />
+          <Route path="/store_introduction" element={<StoreIntroducePage />} />
+
           {/* <Route path="blogs" element={<Blogs />} />
           <Route path="contact" element={<Contact />} />
           <Route path="*" element={<NoPage />} /> */}

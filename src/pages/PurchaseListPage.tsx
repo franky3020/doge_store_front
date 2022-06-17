@@ -10,6 +10,7 @@ import LoginFrom from "../component/LoginFrom";
 import SuccessMessage from '../component/SuccessMessage';
 import DownloadProductButton from '../component/DownloadProductButton';
 import { Link } from "react-router-dom";
+import Alert from 'react-bootstrap/Alert';
 
 
 export interface IPurchaseListPageProps {
@@ -19,7 +20,8 @@ export interface IPurchaseListPageProps {
 export interface IPurchaseListPageState {
     products: ProductEntity[],
     showSuccessMessage: boolean,
-    isLogin: boolean
+    isLogin: boolean,
+    hasAnyProduct: boolean
 }
 
 export default class PurchaseListPage extends React.Component<IPurchaseListPageProps, IPurchaseListPageState> {
@@ -45,7 +47,8 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
         this.state = {
             products: [],
             showSuccessMessage: false,
-            isLogin: userInfoService.isExistUser()
+            isLogin: userInfoService.isExistUser(),
+            hasAnyProduct: true
         }
     }
 
@@ -72,7 +75,7 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
     ifNotLoginShowLoginFrom() {
         if (this.state.isLogin === false) {
             return (
-                <LoginFrom showModel={true} closeItself={() => {}} hasCloseBuuton={false} />
+                <LoginFrom showModel={true} closeItself={() => { }} hasCloseBuuton={false} />
             )
         }
     }
@@ -83,8 +86,17 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
             let userPurchaseList = await APIFacade.getPurchaseList();
             let products_json: ProductEntity[] = await getAllProducts();
 
-            let products = products_json.filter((product, _) => userPurchaseList.includes(product.id))
-            
+            let products = products_json.filter((product, _) => userPurchaseList.includes(product.id));
+            if (products.length === 0) {
+                this.setState({
+                    hasAnyProduct: false
+                });
+            } else {
+                this.setState({
+                    hasAnyProduct: true
+                });
+            }
+
 
             this.setState({
                 products: products
@@ -96,14 +108,14 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
             console.error(err);
         }
     }
-   
+
 
     handleSuccessMessage() {
         this.setState({
             showSuccessMessage: true
         });
 
-        setTimeout(()=>{
+        setTimeout(() => {
             this.setState({
                 showSuccessMessage: false
             });
@@ -113,14 +125,25 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
     public render() {
         return (
             <React.Fragment>
-                
+
+                <AppNavbar />
+
                 {this.ifNotLoginShowLoginFrom()}
 
                 {this.state.showSuccessMessage &&
                     <SuccessMessage />
                 }
+               
 
-                <AppNavbar />
+                {!this.state.hasAnyProduct &&
+
+                    <Alert variant="danger">
+                        未購買任何產品
+                    </Alert>
+                }
+
+
+
                 <ListGroup>
 
                     {
@@ -130,12 +153,12 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
                                     <Row>
                                         <Col sm={2}>
                                             <h4>{product.name}</h4>
-                                            
+
                                             <Link to={"/product/" + product.id}>
-                                            <img
-                                                style={this.imgSizeStyle}
-                                                src={this.productsImgURL[product.id]}
-                                            />
+                                                <img
+                                                    style={this.imgSizeStyle}
+                                                    src={this.productsImgURL[product.id]}
+                                                />
                                             </Link>
 
                                         </Col>

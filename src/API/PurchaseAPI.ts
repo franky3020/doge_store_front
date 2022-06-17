@@ -1,4 +1,4 @@
-import { BASE_URL } from "./APISource";
+import { API_URL } from "./APISource";
 let download = require('downloadjs');
 
 // TODO: 要想一下這 API 放這裡好不好
@@ -13,7 +13,7 @@ export async function addProductZipFile(jwt: string, productId: number, inputFil
     data.append('uploaded_file', inputFile)
 
 
-    let res = await fetch(`${BASE_URL}/purchase/productZipFile/${productId.toString()}`, { method: "POST", headers: headers, body: data});
+    let res = await fetch(`${API_URL}/purchase/productZipFile/${productId.toString()}`, { method: "POST", headers: headers, body: data});
 
     if (res.status !== 201) {
         throw Error("error on add new zip product file");
@@ -28,7 +28,7 @@ export async function downloadProductZipFile(jwt: string, productId: number, fil
 
 
 
-    let res = await fetch(`${BASE_URL}/purchase/productZipFile/${productId.toString()}`, { method: "GET", headers: headers});
+    let res = await fetch(`${API_URL}/purchase/productZipFile/${productId.toString()}`, { method: "GET", headers: headers});
 
     if (res.status !== 200) {
         throw Error("error on get product zip file");
@@ -52,7 +52,7 @@ export async function purchase(jwt: string, product_id: number): Promise<void> {
         product_id
     });
 
-    let res = await fetch(`${BASE_URL}/purchase`, { method: "POST", headers: headers, body: body_json});
+    let res = await fetch(`${API_URL}/purchase`, { method: "POST", headers: headers, body: body_json});
 
     if (res.status !== 201) {
         throw Error("error on purchase");
@@ -66,7 +66,7 @@ export async function getPurchaseList(jwt: string): Promise<number[]> {
     headers.append('Authorization', "Bearer" + " " +  jwt);
 
 
-    let res = await fetch(`${BASE_URL}/purchase`, { method: "GET", headers: headers});
+    let res = await fetch(`${API_URL}/purchase`, { method: "GET", headers: headers});
 
     if (res.status !== 200) {
         throw Error("error on get purchaseList");

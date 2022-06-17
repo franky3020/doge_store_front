@@ -7,7 +7,6 @@ import BuyProductButton from "../component/BuyProductButton";
 import { MdOutlineAttachMoney } from "react-icons/md";
 import APIFacade from "../API/APIFacade";
 import UserInfoService from "../service/UserInfo";
-
 import DownloadProductButton from '../component/DownloadProductButton';
 
 export interface IProductDetailProps {
@@ -77,7 +76,7 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
         let pathArray = window.location.pathname.split('/'); // Todo 這有bug 因為 Component 不會自動關閉
         let product_id = Number(pathArray[pathArray.length - 1]);
 
-        if(isNaN(product_id)) {
+        if (isNaN(product_id)) {
             return;
         }
 
@@ -85,7 +84,7 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
             id: product_id
         });
 
-        
+
         this.productImgURL = getProductImgURLV2(product_id)[product_id];
 
         try {
@@ -96,12 +95,12 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
                 price: product["price"],
                 describe: product["describe"]
             });
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         }
 
         this.getUserPurchaseList();
-        
+
     }
 
     async getUserPurchaseList() {
@@ -141,7 +140,7 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
         return (
             <React.Fragment>
 
-                <AppNavbar/>
+                <AppNavbar />
 
                 <Container>
 
@@ -172,7 +171,7 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
                                 <h5>{this.state.describe}</h5>
                             </Row>
 
-                         
+
 
                             <Row className='mt-5'>
                                 {this.getProductsOperateButton(this.state.id, this.state.name)}

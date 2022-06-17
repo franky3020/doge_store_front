@@ -32,7 +32,7 @@ export default class AppNavbar extends React.Component<IAppNavbarProps, IAppNavb
                     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                     <Navbar.Collapse id="responsive-navbar-nav">
                         <Nav className="me-auto">
-                            <Nav.Link href="#Introduction">商店簡介</Nav.Link>
+                            <Nav.Link href="/store_introduction">商店簡介</Nav.Link>
 
                         </Nav>
 
