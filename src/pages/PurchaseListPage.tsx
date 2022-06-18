@@ -87,6 +87,9 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
             let products_json: ProductEntity[] = await getAllProducts();
 
             let products = products_json.filter((product, _) => userPurchaseList.includes(product.id));
+            
+            this.productsImgURL = await getProductImgURLV2(...products.map(p => p.id as number));
+
             if (products.length === 0) {
                 this.setState({
                     hasAnyProduct: false
@@ -97,12 +100,10 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
                 });
             }
 
-
             this.setState({
                 products: products
             })
 
-            this.productsImgURL = await getProductImgURLV2(...products.map(p => p.id as number));
 
         } catch (err) {
             console.error(err);
