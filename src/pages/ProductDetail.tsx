@@ -46,8 +46,8 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
     imgSizeStyle = {
         background: 'lightgray',
         objectFit: 'contain',
-        height: "450px",
-        width: "450px"
+        height: "400px",
+        width: "100%"
     } as any
 
 
@@ -145,15 +145,16 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
                 <Container>
 
                     <Row>
-                        <Col>
+                        <Col sm={12} lg={6}> 
 
                             <img
+                                className='img-fluid'
                                 style={this.imgSizeStyle}
                                 src={this.productImgURL}
                             />
 
                         </Col>
-                        <Col>
+                        <Col sm={12} lg={6}>
                             <Row>
                                 <h1>{this.state.name}</h1>
                             </Row>
