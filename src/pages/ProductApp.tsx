@@ -65,7 +65,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
             let products_json = await getAllProducts();
             let products = ProductEntity.createFromJson(products_json);
 
-            this.productImg = getProductImgURLV2(...products.map(p => p.id as number));
+            this.productImg = await getProductImgURLV2(...products.map(p => p.id as number));
             this.getUserPurchaseList();
 
             this.setState({ products: products });

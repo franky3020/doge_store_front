@@ -102,7 +102,7 @@ export default class PurchaseListPage extends React.Component<IPurchaseListPageP
                 products: products
             })
 
-            this.productsImgURL = getProductImgURLV2(...products.map(p => p.id as number));
+            this.productsImgURL = await getProductImgURLV2(...products.map(p => p.id as number));
 
         } catch (err) {
             console.error(err);

@@ -110,7 +110,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
                 products: products
             })
 
-            this.productsImgURL = getProductImgURLV2(...products.map(p => p.id as number));
+            this.productsImgURL = await getProductImgURLV2(...products.map(p => p.id as number));
 
         } catch (err) {
             console.error(err);

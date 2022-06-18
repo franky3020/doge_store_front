@@ -2,23 +2,11 @@
 import { STATIC_SOURCE_URL } from "./APISource";
 import { RANDOM_IMG_URL } from "./APISource";
 
-
-export async function getProductImgURL(productId: number): Promise<any> {
-
-    let productImgSource = `${STATIC_SOURCE_URL}/productImg/${productId.toString()}/product_publicimg.png`;
-
-    let isImgExist = ckeckSourceExistV2(productImgSource);
-    if (isImgExist) {
-        return productImgSource;
-    } else {
-        return RANDOM_IMG_URL;
-    }
-}
-
-export function getProductImgURLV2(...productId: number[]): { [product_id: number]: string } {
+export async function getProductImgURLV2(...productId: number[]): Promise<{ [product_id: number]: string }> {
 
     let productsImgURL: { [product_id: number]: string } = {};
 
+    let allPromises = [];
 
     for (let p_id of productId) {
 
@@ -26,43 +14,27 @@ export function getProductImgURLV2(...productId: number[]): { [product_id: numbe
 
         productsImgURL[p_id] = "";
 
-        let isImgExist = ckeckSourceExistV2(productImgSource);
-        if (isImgExist) {
-            productsImgURL[p_id] = productImgSource;
-        } else {
-            productsImgURL[p_id] = RANDOM_IMG_URL;
-        }
+        let checkSourcePromise = ckeckSourceExist(productImgSource).then((hasSource) => {
+            if (hasSource) {
+                productsImgURL[p_id] = productImgSource;
+            } else {
+                productsImgURL[p_id] = RANDOM_IMG_URL;
+            }
+        });
+
+        allPromises.push(checkSourcePromise);
+
 
     }
+    await Promise.all(allPromises); // 一定要用 promise.all 才會同時載入, 如果在 ckeckSourceExist 那行加上 await 會是依序載入
+
     return productsImgURL;
 
 }
 
-// 使用同步版本圖片載入速度是最快的
-function ckeckSourceExistV2(sourceURL: string): boolean {
+function ckeckSourceExist(sourceURL: string): Promise<boolean> {
 
-
-    let xhr = new XMLHttpRequest();
-    xhr.open('HEAD', sourceURL, false);
-
-    try {
-        xhr.send();
-    } catch(err) {
-        return false;
-    }
-    
-    if (xhr.status != 404) {
-        return true;
-    }
-
-    return false;
-    
-}
-
-// 非同步版本的會很慢 因為它需要等其它網頁同步的事情完成, 等於檔案只能在最後才載入
-function ckeckSourceExist(sourceURL: string): Promise<any> {
-
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
 
         try {
             var xhr = new XMLHttpRequest();
@@ -79,7 +51,7 @@ function ckeckSourceExist(sourceURL: string): Promise<any> {
             }
 
         } catch (err) {
-            return reject(err);
+            return resolve(false);
         }
     });
 

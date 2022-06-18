@@ -84,8 +84,8 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
             id: product_id
         });
 
-
-        this.productImgURL = getProductImgURLV2(product_id)[product_id];
+        let imgsURL = await getProductImgURLV2(product_id);
+        this.productImgURL = imgsURL[product_id];
 
         try {
             let product = await getProductById(product_id);
