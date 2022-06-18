@@ -172,7 +172,7 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
 
 
 
-                            <Row className='mt-5'>
+                            <Row className='my-5'>
                                 {this.getProductsOperateButton(this.state.id, this.state.name)}
                             </Row>
 
