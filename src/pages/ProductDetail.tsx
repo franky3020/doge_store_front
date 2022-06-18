@@ -44,9 +44,8 @@ export default class ProductDetail extends React.Component<IProductDetailProps, 
     }
 
     imgSizeStyle = {
-        background: 'lightgray',
         objectFit: 'contain',
-        height: "400px"
+        height: "500px"
     } as any
 
 
