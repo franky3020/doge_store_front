@@ -1,46 +1,27 @@
-# Getting Started with Create React App
+# Doge Store (front end)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Website: https://stroe.dogecoin.idv.tw/
 
-## Available Scripts
+## 介紹
+這是一個購買3D列印模型的購物網站的 前端網頁
 
-In the project directory, you can run:
+後端在 [Doge Store](https://github.com/franky3020/DogeStore)
 
-### `npm start`
+目前有 [會員登入, 會員購買模型, 後台管理介面]
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 使用者操作
+* 註冊 > 查看模型 > 購買模型 >  下載模型 > 查看已購買模型 > 登出
+![](https://raw.githubusercontent.com/franky3020/DogeStore/master/doc/readmeGIF/buy-download_2.gif)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 管理者操作
+* ˋ上傳新模型 > 上傳模型圖片 > 上傳模型zip檔 > 測試下載 > 刪除模型
+![](https://raw.githubusercontent.com/franky3020/DogeStore/master/doc/readmeGIF/admin_create_delete.gif)
 
-### `npm test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 主要技術
+1. 使用 React 前端框架, 設計網頁
+2. 使用 react-bootstrap 製作響應式網站
+3. 使用 Nginx 作為 web server
+4. 使用 Docker 部屬網站
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
