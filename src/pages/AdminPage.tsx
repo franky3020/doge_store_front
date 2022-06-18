@@ -211,7 +211,7 @@ export default class AdminPage extends React.Component<IAdminPageProps, IAdminPa
                                         </Col>
                                         <Col sm={2}>
                                             <h5>price: {product.price}</h5>
-                                            <p>describe: </p>
+                                            <p>商品描述: </p>
                                             <p>{product.describe}</p>
 
                                         </Col>

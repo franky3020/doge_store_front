@@ -11,7 +11,6 @@ import PurchaseListPage from './pages/PurchaseListPage';
 import StoreIntroducePage from './pages/StoreIntroducePage';
 
 import "./App.css";
-// TODO: 背景設定顏色 FEF3E0
 
 export default function App() {
   return (
