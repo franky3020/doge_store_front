@@ -1,5 +1,3 @@
-import 'dotenv/config';
-
 
 export let SERVER_URL = "";
 if(process.env.REACT_APP_SERVER_URL) {
