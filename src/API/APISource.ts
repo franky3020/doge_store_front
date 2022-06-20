@@ -1,11 +1,14 @@
+import 'dotenv/config';
 
 
+export let SERVER_URL = "";
+if(process.env.REACT_APP_SERVER_URL) {
+    SERVER_URL = process.env.REACT_APP_SERVER_URL;
+} else {
+    SERVER_URL = "https://store.dogecoin.idv.tw/backend_server";
+}
 
-// TODO: BASE_URL 改成可用環境變數指定
-const BASE_URL = "https://store.dogecoin.idv.tw/backend_server";
-// const BASE_URL = "http://localhost:5000"; // for test env
-
-export const API_URL = BASE_URL + "/api";
-export const STATIC_SOURCE_URL = BASE_URL + "/public";
+export const API_URL = SERVER_URL + "/api";
+export const STATIC_SOURCE_URL = SERVER_URL + "/public";
 
 export const RANDOM_IMG_URL = "https://picsum.photos/800/800";
