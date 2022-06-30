@@ -124,14 +124,14 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
 
 
                 <AppNavbar />
-                <Container>
+                <Container className="pb-5" >
 
                     <Row gap={3}>
 
                         {
                             this.state.products.map(product => {
                                 return (
-                                    <Col className="mt-2 mb-2" key={product.id} sm={6} md={4} lg={3}>
+                                    <Col className="mt-3 mb-3" key={product.id} sm={6} md={4} lg={3}>
 
                                         <ProductUI id={product.id} name={product.name} create_user_id={product.create_user_id}
                                             price={product.price} describe={product.describe} imgURL={this.getProductImg(product.id)}>
