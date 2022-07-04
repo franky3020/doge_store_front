@@ -14,13 +14,12 @@ export default class View3D extends React.Component<IView3DProps, IView3DState> 
 
   renderer = new THREE.WebGLRenderer();
   scene = new THREE.Scene();
-  // camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100000);
   camera: THREE.PerspectiveCamera;
-  cube: THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>;
+  // cube: THREE.Mesh<THREE.BoxGeometry, THREE.MeshBasicMaterial>;
 
   modelView: React.RefObject<any>;
 
-  loadedModel: GLTF | any;
+  loadedModel: GLTF | any = null;
 
   constructor(props: IView3DProps) {
     super(props);
@@ -28,10 +27,9 @@ export default class View3D extends React.Component<IView3DProps, IView3DState> 
     this.state = {
     }
 
-    this.camera = new THREE.PerspectiveCamera(75, props.height / props.width, 0.1, 100000);
+    this.camera = new THREE.PerspectiveCamera(75, this.props.height / this.props.width, 0.1, 100000);
 
     this.modelView = React.createRef();
-    this.loadedModel = null;
 
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(props.height, props.width);
@@ -39,7 +37,7 @@ export default class View3D extends React.Component<IView3DProps, IView3DState> 
 
     const geometry = new THREE.BoxGeometry(1, 1, 1);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    this.cube = new THREE.Mesh(geometry, material);
+    // this.cube = new THREE.Mesh(geometry, material);
     // this.scene.add(this.cube);
 
     this.camera.position.x = 150;
@@ -98,6 +96,11 @@ export default class View3D extends React.Component<IView3DProps, IView3DState> 
   }
 
   public render() {
+
+    this.camera.aspect = this.props.height / this.props.width;
+    this.renderer.setSize(this.props.width, this.props.height);
+
+
     return (
       <div ref={this.modelView}>
 

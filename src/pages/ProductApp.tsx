@@ -148,8 +148,6 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                         
                     </Row>
 
-                    <View3D height={300} width={300}/>
-
                 </Container>
 
             </React.Fragment>

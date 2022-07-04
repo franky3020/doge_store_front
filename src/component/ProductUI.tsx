@@ -6,7 +6,7 @@ import "antd/dist/antd.css";
 import { Button, Card } from 'react-bootstrap';
 
 import { MdOutlineAttachMoney } from "react-icons/md";
-
+import View3D from './View3D';
 
 
 export interface IProductUIProps {
@@ -37,20 +37,40 @@ export default class ProductUI extends React.Component<IProductUIProps, IProduct
         width: "100%"
     } as any
 
+    view3dSizeRef: React.RefObject<HTMLDivElement>;
+
+    view3dHeight: number = 100;
+    view3dWidth: number = 100;
+    
 
     constructor(props: IProductUIProps) {
         super(props);
 
+        this.view3dSizeRef = React.createRef();
+
     }
 
-    public render() {
+    componentDidMount() {
+    }
 
+
+    public render() {
         return (
 
             <React.Fragment>
                 <Card>
                     <Link to={"/product/" + this.props.id}>
-                        <Card.Img style={this.imgSizeStyle} variant="top" src={this.props.imgURL} />
+
+                        {/* <Card.Img style={this.imgSizeStyle} variant="top" src={this.props.imgURL} /> */}
+
+                        <div style={this.imgSizeStyle} ref={this.view3dSizeRef}></div>
+
+                        {this.view3dSizeRef.current &&
+                        
+                        <View3D height={this.view3dSizeRef.current.offsetHeight} width={this.view3dSizeRef.current.offsetWidth}/>
+                        }
+
+
                     </Link>
 
                     <Card.Body>
