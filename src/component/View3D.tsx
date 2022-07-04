@@ -28,7 +28,7 @@ export default class View3D extends React.Component<IView3DProps, IView3DState> 
     this.state = {
     }
 
-    this.camera = new THREE.PerspectiveCamera(75, this.props.height / this.props.width, 0.1, 100000);
+    this.camera = new THREE.PerspectiveCamera(50, this.props.height / this.props.width, 0.1, 100000);
 
     this.modelView = React.createRef();
 

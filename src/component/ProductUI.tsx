@@ -37,15 +37,18 @@ export default class ProductUI extends React.Component<IProductUIProps, IProduct
         background: 'lightgray',
         objectFit: 'contain',
         height: this.cardImgorModelHeight,
-        width: "100%"
+        width: "100%",
+        position: 'relative'
     } as any
 
     view3dSizeRef: React.RefObject<HTMLDivElement>;
+    cardImgSizeRef: React.RefObject<HTMLDivElement>;
 
     constructor(props: IProductUIProps) {
         super(props);
 
         this.view3dSizeRef = React.createRef();
+        this.cardImgSizeRef = React.createRef();
 
     }
 
@@ -60,9 +63,9 @@ export default class ProductUI extends React.Component<IProductUIProps, IProduct
                 <Card>
                     <Link to={"/product/" + this.props.id}>
 
-                        {/* <Card.Img style={this.imgSizeStyle} variant="top" src={this.props.imgURL} /> */}
+                        <Card.Img style={this.imgSizeStyle} variant="top" src={this.props.imgURL}  />
 
-                        <div style={{height: this.cardImgorModelHeight, width: '100%', position: 'relative' }} ref={this.view3dSizeRef}></div>
+                        <div style={{height: this.cardImgorModelHeight, width: '100%', position: 'absolute', top: '0px', left: '0px' }} ref={this.view3dSizeRef}></div>
 
                         {this.view3dSizeRef.current &&
 
