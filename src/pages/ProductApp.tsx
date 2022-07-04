@@ -10,7 +10,7 @@ import APIFacade from "../API/APIFacade";
 import { API_POLLING_TIMEOUT } from "../config";
 import BuyProductButton from "../component/BuyProductButton";
 import DownloadProductButton from '../component/DownloadProductButton';
-
+import View3D from '../component/View3D';
 
 export interface IProductAppProps {
 
@@ -147,6 +147,9 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                         }
                         
                     </Row>
+
+                    <View3D height={300} width={300}/>
+
                 </Container>
 
             </React.Fragment>
