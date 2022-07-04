@@ -5,6 +5,7 @@ import * as THREE from 'three';
 export interface IView3DProps {
   height: number;
   width: number;
+  style: React.CSSProperties;
 }
 
 export interface IView3DState {
@@ -77,7 +78,7 @@ export default class View3D extends React.Component<IView3DProps, IView3DState> 
         that.loadedModel = gltf;
         that.scene.add(gltf.scene);
 
-        console.log(that.scene);
+        // console.log(that.scene);
 
         that.renderer.render(that.scene, that.camera);
         that.modelView.current.appendChild(that.renderer.domElement);
@@ -102,7 +103,7 @@ export default class View3D extends React.Component<IView3DProps, IView3DState> 
 
 
     return (
-      <div ref={this.modelView}>
+      <div style={this.props.style} ref={this.modelView}>
 
       </div>
     );

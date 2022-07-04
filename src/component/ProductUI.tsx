@@ -7,6 +7,7 @@ import { Button, Card } from 'react-bootstrap';
 
 import { MdOutlineAttachMoney } from "react-icons/md";
 import View3D from './View3D';
+import { relative } from 'path';
 
 
 export interface IProductUIProps {
@@ -30,18 +31,16 @@ export default class ProductUI extends React.Component<IProductUIProps, IProduct
 
     imgSource: string = "";
 
+    cardImgorModelHeight = '300px';
+
     imgSizeStyle = {
         background: 'lightgray',
         objectFit: 'contain',
-        height: "300px",
+        height: this.cardImgorModelHeight,
         width: "100%"
     } as any
 
     view3dSizeRef: React.RefObject<HTMLDivElement>;
-
-    view3dHeight: number = 100;
-    view3dWidth: number = 100;
-    
 
     constructor(props: IProductUIProps) {
         super(props);
@@ -63,11 +62,12 @@ export default class ProductUI extends React.Component<IProductUIProps, IProduct
 
                         {/* <Card.Img style={this.imgSizeStyle} variant="top" src={this.props.imgURL} /> */}
 
-                        <div style={this.imgSizeStyle} ref={this.view3dSizeRef}></div>
+                        <div style={{height: this.cardImgorModelHeight, width: '100%', position: 'relative' }} ref={this.view3dSizeRef}></div>
 
                         {this.view3dSizeRef.current &&
-                        
-                        <View3D height={this.view3dSizeRef.current.offsetHeight} width={this.view3dSizeRef.current.offsetWidth}/>
+
+                        <View3D height={this.view3dSizeRef.current.offsetHeight} width={this.view3dSizeRef.current.offsetWidth}
+                        style={{position: 'absolute', top: '0px', left: '0px'}} />
                         }
 
 
