@@ -3,11 +3,13 @@ import React, { useState } from 'react';
 import { Link } from "react-router-dom";
 import "antd/dist/antd.css";
 
-import { Button, Card } from 'react-bootstrap';
+import { Card } from 'react-bootstrap';
 
 import { MdOutlineAttachMoney } from "react-icons/md";
 import View3D from './View3D';
-import { relative } from 'path';
+var ToggleButton = require('react-toggle-button');
+
+
 
 
 export interface IProductUIProps {
@@ -21,7 +23,7 @@ export interface IProductUIProps {
 }
 
 export interface IProductUIState {
-
+    isShow3DView: boolean
 }
 
 export default class ProductUI extends React.Component<IProductUIProps, IProductUIState> {
@@ -47,12 +49,18 @@ export default class ProductUI extends React.Component<IProductUIProps, IProduct
     constructor(props: IProductUIProps) {
         super(props);
 
+        this.state = {
+            isShow3DView: false
+        };
+
         this.view3dSizeRef = React.createRef();
         this.cardImgSizeRef = React.createRef();
 
     }
 
-    componentDidMount() {
+
+    show3DView() {
+        return this.state.isShow3DView;
     }
 
 
@@ -63,21 +71,40 @@ export default class ProductUI extends React.Component<IProductUIProps, IProduct
                 <Card>
                     <Link to={"/product/" + this.props.id}>
 
-                        <Card.Img style={this.imgSizeStyle} variant="top" src={this.props.imgURL}  />
+                        <Card.Img style={this.imgSizeStyle} variant="top" src={this.props.imgURL} />
 
-                        <div style={{height: this.cardImgorModelHeight, width: '100%', position: 'absolute', top: '0px', left: '0px' }} ref={this.view3dSizeRef}></div>
 
-                        {this.view3dSizeRef.current &&
+                        <div style={{ height: this.cardImgorModelHeight, width: '100%', position: 'absolute', top: '0px', left: '0px' }} ref={this.view3dSizeRef}></div>
+                        {this.show3DView() && this.view3dSizeRef.current &&
 
-                        <View3D height={this.view3dSizeRef.current.offsetHeight} width={this.view3dSizeRef.current.offsetWidth}
-                        style={{position: 'absolute', top: '0px', left: '0px'}} />
+                            <View3D height={this.view3dSizeRef.current.offsetHeight} width={this.view3dSizeRef.current.offsetWidth}
+                                style={{ position: 'absolute', top: '0px', left: '0px' }} />
                         }
 
 
                     </Link>
 
                     <Card.Body>
-                        <Card.Title>{this.props.name}</Card.Title>
+
+
+                        <div className='d-flex justify-content-between'>
+
+                            <Card.Title>{this.props.name}</Card.Title>
+
+                            <div >
+                                
+                                <ToggleButton
+                                    value={this.state.isShow3DView || false}
+                                    onToggle={(value: boolean) => {
+                                        this.setState({
+                                            isShow3DView: !value,
+                                        })
+                                    }} />
+                            </div>
+
+                        </div>
+
+
                         <Card.Text>
                             {this.props.describe}
                         </Card.Text>

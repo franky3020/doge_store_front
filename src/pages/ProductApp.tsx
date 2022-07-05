@@ -10,7 +10,6 @@ import APIFacade from "../API/APIFacade";
 import { API_POLLING_TIMEOUT } from "../config";
 import BuyProductButton from "../component/BuyProductButton";
 import DownloadProductButton from '../component/DownloadProductButton';
-import View3D from '../component/View3D';
 
 export interface IProductAppProps {
 
