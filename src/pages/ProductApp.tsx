@@ -11,7 +11,6 @@ import { API_POLLING_TIMEOUT } from "../config";
 import BuyProductButton from "../component/BuyProductButton";
 import DownloadProductButton from '../component/DownloadProductButton';
 
-
 export interface IProductAppProps {
 
 }
@@ -147,6 +146,7 @@ export default class ProductApp extends Component<IProductAppProps, IProductAppS
                         }
                         
                     </Row>
+
                 </Container>
 
             </React.Fragment>
