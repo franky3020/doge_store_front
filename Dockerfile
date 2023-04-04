@@ -1,5 +1,5 @@
 # build environment
-FROM node:lts-alpine3.16 as build
+FROM node:16.17.1-alpine3.15 as build
 WORKDIR /app
 COPY package*.json ./
 RUN npm ci
