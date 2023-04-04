@@ -1,6 +1,6 @@
 # Doge Store (front end)
 
-Website: https://stroe.dogecoin.idv.tw/
+Website: http://frankyya.com:35003/
 
 ## 介紹
 這是一個購買3D列印模型的購物網站的 前端網頁
